@@ -1,0 +1,47 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:theta_chat/config/theme.dart';
+
+class AppOutcomeMessage extends StatelessWidget {
+  const AppOutcomeMessage(
+    this.message, {
+    Key? key,
+    this.isHaveError = false,
+  }) : super(key: key);
+
+  final String message;
+  final bool isHaveError;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        if (isHaveError) SvgPicture.asset(AppIcons.icInformationFilled),
+        Flexible(
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(24, 20, 16, 20),
+            margin: EdgeInsets.only(left: isHaveError? 4 :36, right: 4),
+            decoration: BoxDecoration(
+              color: AppColors.inDevPrimary600,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              message,
+              style: AppTextStyle.body1.copyWith(color: Colors.white),
+            ),
+          ),
+        ),
+        Container(
+          width: 20,
+          height: 20,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.grey200,
+          ),
+        ),
+      ],
+    );
+  }
+}
