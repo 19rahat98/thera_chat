@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:theta_chat/common/constants/app_core_constant.dart';
 import 'package:theta_chat/common/constants/app_network_constant.dart';
@@ -139,15 +140,27 @@ Future<T> safeApiCallWithError<T, V>(
     return jsonCall.call(json);
   } catch (ex) {
     if (ex is DioError) {
-      final data = ex.response?.data;
       throw errorResponsePrinter.call(
-        data,
+        _parseResponseData(ex.response),
         _handleDioErrorType(ex),
         ex.response?.statusCode ?? CoreConstant.negative,
       );
     }
 
     throw _throwDefaultError(ex);
+  }
+}
+
+Map<String, dynamic> _parseResponseData(Response? response) {
+  final typeError = response?.data.runtimeType;
+  try {
+    if (typeError == String) {
+      return jsonDecode(response?.data);
+    } else {
+      return response?.data;
+    }
+  } catch (e) {
+    rethrow;
   }
 }
 

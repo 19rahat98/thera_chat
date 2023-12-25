@@ -1,4 +1,5 @@
 import 'package:theta_chat/common/constants/app_global_constants.dart';
+import 'package:theta_chat/common/exception/auth_error_entity.dart';
 import 'package:theta_chat/common/network/authorized_api_service.dart';
 import 'package:theta_chat/common/network/unauthorized_api_service.dart';
 import 'package:theta_chat/di/service_locator.dart';
@@ -6,6 +7,7 @@ import 'package:theta_chat/feature/auth/common/data/dto/global_auth_response_dto
 import 'package:theta_chat/feature/auth/common/data/local/global_personal_secure_data_source.dart';
 import 'package:theta_chat/feature/auth/common/domain/entity/global_auth_reponse_entity.dart';
 import 'package:theta_chat/feature/auth/login/domain/use_cases/sign_in_with_email_use_case.dart';
+import 'package:theta_chat/feature/auth/sign_up/domain/entity/sign_up_param.dart';
 import 'package:theta_chat/utils/http_call_utils.dart';
 
 /// Класс AuthRepository обрабатывает различные запросы,
@@ -39,11 +41,23 @@ class AuthRepository {
   Future<void> signOut() async {}
 
   /// Логинется с помощью эмейла
-  Future<GlobalAccessToken> singInWithEmail(SignInEmailParam param) async {
-    return safeApiCall<GlobalAccessToken>(
+  Future<GlobalAccessDTO> singInWithEmail(SignInEmailParam param) async {
+    return safeApiCallWithError<GlobalAccessDTO, GlobalAuthException>(
       _apiService.signInWithEmail(param.toJson()),
-      (Map<String, dynamic> json) {
-        return GlobalAccessToken.fromDTO(GlobalAccessDTO.fromJson(json));
+      GlobalAccessDTO.fromJson,
+      (json, p1, ex) {
+        return GlobalAuthException.fromJson(json);
+      },
+    );
+  }
+
+  /// Регистрация с помощью эмейла
+  Future<GlobalAccessDTO> singUpWithEmail(SignUpEmailParam param) async {
+    return safeApiCallWithError<GlobalAccessDTO, GlobalAuthException>(
+      _apiService.signUp(param.toJson()),
+      GlobalAccessDTO.fromJson,
+      (json, p1, ex) {
+        return GlobalAuthException.fromJson(json);
       },
     );
   }

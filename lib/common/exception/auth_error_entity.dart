@@ -1,7 +1,7 @@
 import 'package:theta_chat/common/exception/exception.dart';
 
 /// модель для ошибки при авторизации
-class GlobalAuthException extends HttpRequestException<dynamic> {
+class GlobalAuthException<T> extends HttpRequestException<T> {
   GlobalAuthException({
     this.json,
     this.statusCode,
@@ -15,10 +15,7 @@ class GlobalAuthException extends HttpRequestException<dynamic> {
           httpTypeError: httpTypeError,
         );
 
-  factory GlobalAuthException.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      GlobalAuthException(
+  factory GlobalAuthException.fromJson(Map<String, dynamic> json) => GlobalAuthException(
         json: json,
         statusCode: json['status_code'] as int? ?? 500,
         errorMessage: json['message'] as String?,
@@ -29,15 +26,22 @@ class GlobalAuthException extends HttpRequestException<dynamic> {
   String? fieldType;
   Map<String, dynamic>? json;
 
-  GlobalAuthException? get email => GlobalAuthException.fromJson(
-        json?['email'] as Map<String, dynamic>? ?? <String, dynamic>{},
+  /// Общий метод для получения ошибок
+  GlobalAuthException? _getError(String key) {
+    if (json?[key] != null) {
+      return GlobalAuthException.fromJson(
+        json?[key] as Map<String, dynamic>? ?? <String, dynamic>{},
       );
+    }
+    return null;
+  }
 
-  GlobalAuthException? get password => GlobalAuthException.fromJson(
-        json?['password'] as Map<String, dynamic>? ?? <String, dynamic>{},
-      );
+  /// Получение ошибки email
+  GlobalAuthException? get email => _getError('email');
 
-  GlobalAuthException? get error => GlobalAuthException.fromJson(
-        json?['error'] as Map<String, dynamic>? ?? <String, dynamic>{},
-      );
+  /// Получение ошибки password
+  GlobalAuthException? get password => _getError('password');
+
+  /// Получение общей ошибки
+  GlobalAuthException? get error => _getError('error');
 }

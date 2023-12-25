@@ -7,6 +7,7 @@ class AppColors {
   static const primary = Color(0xFF1C1F23);
   static const black = Color(0xFF191614);
   static const error500 = Color(0xFFF04438);
+  static const success500 = Color(0xFF12B569);
   static const secondary = Color(0xFF888D92);
   static const grey20 = Color(0xFFFCFCFD);
   static const grey50 = Color(0xFFF9FAFB);

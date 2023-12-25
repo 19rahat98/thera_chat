@@ -8,11 +8,13 @@ import 'package:theta_chat/utils/mixins/request_worker_mixin.dart';
 
 part 'sign_in_state.dart';
 
-final signInProvider = StateNotifierProvider<SingInController, SignInState>(
+/// Использование провайдера для создания экземпляра контроллера входа в систему.
+final signInProvider = StateNotifierProvider.autoDispose<SingInController, SignInState>(
   (ref) => SingInController(),
 );
 
 class SingInController extends StateNotifier<SignInState> with CoreRequestWorkedMixin {
+  // Использование service locator для инъекции зависимости.
   SingInController()
       : _signInUseCase = sl(),
         super(SignInCommonState());
@@ -22,49 +24,69 @@ class SingInController extends StateNotifier<SignInState> with CoreRequestWorked
   String _email = CoreConstant.empty;
   String _password = CoreConstant.empty;
 
-  Future<void> signInWithEmail(String email, password) async {
+  /// Метод для входа в систему с использованием электронной почты и пароля.
+  Future<void> signInWithEmail(String email, String password) async {
     final state = _getCommonState();
-    final request = _signInUseCase.execute(
-      SignInEmailParam(email, password),
-    );
+    final request = _signInUseCase.execute(SignInEmailParam(email, password));
 
     await launchWithAuthError<void, GlobalAuthException>(
       request: request,
       loading: (isLoading) => this.state = state.copyWith(isLoading: isLoading),
-      resultData: (result) {
-        this.state = SuccessSignInState();
-      },
+      resultData: (result) => this.state = SuccessSignInState(),
       errorData: (exception, status) {
         if (exception?.password != null) {
-          this.state = state.copyWith(errorPassword: exception?.password?.errorMessage);
+          this.state = state.copyWith(
+            isButtonIsEnable: false,
+            errorPassword: exception?.password?.errorMessage,
+          );
+        } else {
+          this.state = FailureSignInState(errorMessage: exception?.errorMessage);
         }
-        this.state = FailureSignInState();
       },
     );
   }
 
+  /// Метод для инициализации входа в систему.
   void launchSignIn() => signInWithEmail(_email, _password);
+
+  /// Методы для установки email и пароля, а также для сброса ошибок.
+  void setEmail(String email) {
+    _email = email;
+    _resetErrorIfNeeded();
+  }
 
   void setPassword(String password) {
     _password = password;
-    final state = _getCommonState();
-    if (state.errorPassword?.isNotEmpty == true) {
-      this.state = state.copyWith(errorPassword: null);
-    }
+    _resetErrorIfNeeded();
   }
 
-  void setEmail(String email) {
-    _email = email;
-    final state = _getCommonState();
-    if (state.errorPassword?.isNotEmpty == true) {
-      this.state = state.copyWith(errorPassword: null);
+  /// Минимальная волидация
+  /// Проверяем, пустые ли поля эмейл и пароль
+  bool _validateFields() {
+    if (_email.isEmpty || _password.isEmpty) {
+      return false;
     }
+    return true;
   }
 
+  /// Логика для получения текущего общего состояния входа.
   SignInCommonState _getCommonState() {
-    if (state is SignInCommonState) {
-      return state as SignInCommonState;
+    return state is SignInCommonState ? state as SignInCommonState : SignInCommonState();
+  }
+
+  /// Вспомогательный метод для сброса ошибок при изменении данных входа.
+  void _resetErrorIfNeeded() {
+    final commonState = _getCommonState();
+    if (commonState.errorPassword?.isNotEmpty == true) {
+      state = commonState.copyWith(errorPassword: null);
     }
-    return SignInCommonState();
+    state = commonState.copyWith(isButtonIsEnable: _validateFields());
+  }
+
+  @override
+  void dispose() {
+    _email = CoreConstant.empty;
+    _password = CoreConstant.empty;
+    super.dispose();
   }
 }

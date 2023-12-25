@@ -36,10 +36,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       showSemanticsDebugger: false,
+      debugShowCheckedModeBanner: false,
       title: AppGlobalConstants.appName,
       theme: ThemeData(
+        useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: false,
       ),
       home: const LaunchScreen(),
     );

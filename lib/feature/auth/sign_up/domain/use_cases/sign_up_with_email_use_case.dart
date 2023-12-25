@@ -3,10 +3,11 @@ import 'package:theta_chat/di/service_locator.dart';
 import 'package:theta_chat/feature/auth/common/data/repository/authorized_repository.dart';
 import 'package:theta_chat/feature/auth/common/data/repository/global_personal_secure_data_repository.dart';
 import 'package:theta_chat/feature/auth/common/domain/entity/global_auth_reponse_entity.dart';
+import 'package:theta_chat/feature/auth/sign_up/domain/entity/sign_up_param.dart';
 
 /// use case для авторизации
-class GlobalSignInWithEmailUseCase extends CoreFutureUseCase<SignInEmailParam, void> {
-  GlobalSignInWithEmailUseCase()
+class GlobalSignUpWithEmailUseCase extends CoreFutureUseCase<SignUpEmailParam, void> {
+  GlobalSignUpWithEmailUseCase()
       : _repository = sl(),
         _personalSecureDataRepository = sl();
 
@@ -14,8 +15,8 @@ class GlobalSignInWithEmailUseCase extends CoreFutureUseCase<SignInEmailParam, v
   final GlobalPersonalSecureDataRepository _personalSecureDataRepository;
 
   @override
-  Future<void> execute(SignInEmailParam param) async {
-    final response = await _repository.singInWithEmail(param);
+  Future<void> execute(SignUpEmailParam param) async {
+    final response = await _repository.singUpWithEmail(param);
     final result = GlobalAccessToken.fromDTO(response);
 
     ///сохранение данных
@@ -32,14 +33,3 @@ class GlobalSignInWithEmailUseCase extends CoreFutureUseCase<SignInEmailParam, v
   }
 }
 
-class SignInEmailParam {
-  final String email;
-  final String password;
-
-  SignInEmailParam(this.email, this.password);
-
-  Map<String, dynamic> toJson() => {
-        'email': email,
-        'password': password,
-      };
-}

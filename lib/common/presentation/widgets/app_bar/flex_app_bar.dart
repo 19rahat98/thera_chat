@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:theta_chat/common/presentation/widgets/app_wbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_icon_button.dart';
 import 'package:theta_chat/config/theme.dart';
 
@@ -25,10 +23,11 @@ class FlexAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: true,
       actions: actions,
+      surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.white,
       leading: AppIconButton(
-        AppIcons.icArrowLeft,
         onPress: () => Navigator.pop(context),
+        AppIcons.icArrowLeft,
         iconSize: 30,
       ),
       title: Text(title, style: AppTextStyle.h4),

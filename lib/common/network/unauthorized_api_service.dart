@@ -16,7 +16,7 @@ class UnauthorizedApiService {
   /// авторизация
   Future<Response> signUp(Map<String, dynamic> data) async {
     final client = await _httpClient;
-    return client.post<dynamic>('/registration', data: data);
+    return client.post<dynamic>('/register', data: data);
   }
 
   /// обновление токена
