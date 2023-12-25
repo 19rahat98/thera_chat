@@ -1,9 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:equatable/equatable.dart';
+import 'package:theta_chat/common/constants/app_core_constant.dart';
+import 'package:theta_chat/common/exception/auth_error_entity.dart';
 import 'package:theta_chat/di/service_locator.dart';
 import 'package:theta_chat/feature/auth/common/data/repository/authorized_repository.dart';
 import 'package:theta_chat/feature/auth/common/domain/entity/user_detail_entity.dart';
 import 'package:theta_chat/feature/auth/common/domain/use_cases/authentication_use_cases.dart';
+import 'package:theta_chat/feature/auth/common/domain/use_cases/get_user_data_use_case.dart';
+import 'package:theta_chat/utils/mixins/request_worker_mixin.dart';
 
 part 'authentication_state.dart';
 
@@ -16,17 +20,19 @@ final authProvider = StateNotifierProvider<AuthController, AuthenticationState>(
 
 /// AuthController управляет аутентификационным состоянием приложения.
 /// Он расширяет StateNotifier для обеспечения реактивности состояния.
-class AuthController extends StateNotifier<AuthenticationState> {
+class AuthController extends StateNotifier<AuthenticationState> with CoreRequestWorkedMixin {
   // Конструктор AuthController.
   // Инициализирует _authRepository и _checkUserAccess с помощью Service Locator.
   // Устанавливает начальное состояние как 'не аутентифицирован'.
   AuthController()
-      : _authRepository = sl(),
+      : _getUserData = sl(),
+        _authRepository = sl(),
         _checkUserAccess = sl(),
-        super(AuthorizedUserState.unauthenticated());
+        super(const AuthenticationState._());
 
   // Зависимости для работы с аутентификацией и проверки доступа пользователя.
   final AuthRepository _authRepository;
+  final GlobalGetUserDataUseCase _getUserData;
   final CheckUserAccessUseCase _checkUserAccess;
 
   // Асинхронный метод для проверки наличия токена доступа пользователя.
@@ -34,20 +40,33 @@ class AuthController extends StateNotifier<AuthenticationState> {
   Future<void> checkUserData() async {
     final status = await _checkUserAccess.execute();
     if (status.isHaveAccessToken) {
-      // Пользователь аутентифицирован, обновляем состояние.
-      state = AuthorizedUserState.authenticated(
-        const UserDetailEntity(),
-      );
+      await getUserData();
     } else {
       // Нет активного токена, устанавливаем состояние как 'не аутентифицирован'.
-      state = AuthorizedUserState.unauthenticated();
+      state = const AuthenticationState.unauthenticated();
     }
+  }
+
+  /// Получаем данные об юзера
+  Future<void> getUserData() async {
+    final request = _getUserData.execute();
+
+    await launchWithAuthError<UserDetailEntity, GlobalAuthException>(
+      request: request,
+      resultData: (userData) {
+        // Пользователь аутентифицирован, обновляем состояние.
+        state = AuthenticationState.authenticated(userData);
+      },
+      errorData: (exception, type) {
+        state = AuthenticationState.error(exception?.message ?? CoreConstant.empty);
+      },
+    );
   }
 
   // Метод для выхода пользователя из системы.
   // Вызывает signOut в _authRepository и обновляет состояние на 'не аутентифицирован'.
   void onSignOut() {
     _authRepository.signOut();
-    state = AuthorizedUserState.unauthenticated();
+    state = const AuthenticationState.unauthenticated();
   }
 }

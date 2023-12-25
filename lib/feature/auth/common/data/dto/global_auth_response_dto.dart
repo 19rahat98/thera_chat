@@ -87,8 +87,8 @@ class GlobalAccessDTO {
   });
 
   factory GlobalAccessDTO.fromJson(Map<String, dynamic> json) => GlobalAccessDTO(
-        access: json['access'] as String?,
-        refresh: json['refresh'] as String?,
+        access: json['accessToken'] as String?,
+        refresh: json['refreshToken'] as String?,
       );
 
   final String? access;

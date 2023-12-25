@@ -1,31 +1,32 @@
 part of 'authentication_controller.dart';
 
 enum AuthenticationStatus {
+  init,
+  failure,
   authenticated,
   unauthenticated,
 }
 
-abstract class AuthenticationState extends Equatable {}
-
-class AuthorizedUserState extends AuthenticationState {
-  AuthorizedUserState._({
+class AuthenticationState extends Equatable {
+  const AuthenticationState._({
     this.user,
-    required this.status,
+    this.errorMessage,
+    this.status = AuthenticationStatus.init,
   });
 
+  final String? errorMessage;
   final UserDetailEntity? user;
   final AuthenticationStatus status;
 
-  AuthorizedUserState.authenticated(UserDetailEntity user)
+  const AuthenticationState.authenticated(UserDetailEntity user)
       : this._(status: AuthenticationStatus.authenticated, user: user);
 
-  AuthorizedUserState.unauthenticated() : this._(status: AuthenticationStatus.unauthenticated);
+  const AuthenticationState.unauthenticated()
+      : this._(status: AuthenticationStatus.unauthenticated);
+
+  const AuthenticationState.error(String message)
+      : this._(status: AuthenticationStatus.failure, errorMessage: message);
 
   @override
-  List<Object> get props => [status, user ?? 0];
-}
-
-class FailureAuthenticationState extends AuthenticationState {
-  @override
-  List<Object?> get props => [];
+  List<Object> get props => [status, user ?? 0, errorMessage ?? 0];
 }

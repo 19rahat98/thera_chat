@@ -4,6 +4,7 @@ import 'package:theta_chat/common/network/authorized_api_service.dart';
 import 'package:theta_chat/common/network/unauthorized_api_service.dart';
 import 'package:theta_chat/di/service_locator.dart';
 import 'package:theta_chat/feature/auth/common/data/dto/global_auth_response_dto.dart';
+import 'package:theta_chat/feature/auth/common/data/dto/user_detail_dto.dart';
 import 'package:theta_chat/feature/auth/common/data/local/global_personal_secure_data_source.dart';
 import 'package:theta_chat/feature/auth/common/domain/entity/global_auth_reponse_entity.dart';
 import 'package:theta_chat/feature/auth/login/domain/use_cases/sign_in_with_email_use_case.dart';
@@ -59,6 +60,14 @@ class AuthRepository {
       (json, p1, ex) {
         return GlobalAuthException.fromJson(json);
       },
+    );
+  }
+
+  /// Данные юзера
+  Future<UserDetailDto> userData() async {
+    return safeApiCall<UserDetailDto>(
+      _authorizedApiService.getUserDetail(),
+      UserDetailDto.fromJson,
     );
   }
 }

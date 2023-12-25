@@ -9,6 +9,7 @@ import 'package:theta_chat/feature/auth/common/data/local/global_personal_secure
 import 'package:theta_chat/feature/auth/common/data/repository/authorized_repository.dart';
 import 'package:theta_chat/feature/auth/common/data/repository/global_personal_secure_data_repository.dart';
 import 'package:theta_chat/feature/auth/common/domain/use_cases/authentication_use_cases.dart';
+import 'package:theta_chat/feature/auth/common/domain/use_cases/get_user_data_use_case.dart';
 import 'package:theta_chat/feature/auth/login/domain/use_cases/sign_in_with_email_use_case.dart';
 import 'package:theta_chat/feature/auth/sign_up/domain/use_cases/sign_up_with_email_use_case.dart';
 
@@ -72,5 +73,6 @@ void _useCaseModule() {
   sl
     ..registerFactory(GlobalSignInWithEmailUseCase.new)
     ..registerFactory(GlobalSignUpWithEmailUseCase.new)
+    ..registerFactory(GlobalGetUserDataUseCase.new)
     ..registerFactory(CheckUserAccessUseCase.new);
 }

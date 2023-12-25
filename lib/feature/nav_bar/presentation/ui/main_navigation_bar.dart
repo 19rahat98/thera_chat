@@ -4,6 +4,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/chat/thera_chat/presentation/ui/thera_chat_screen.dart';
 import 'package:theta_chat/feature/nav_bar/presentation/ui/widgets/nav_bar_icon_item_widget.dart';
+import 'package:theta_chat/feature/settings/presentation/settings_screen.dart';
 
 class MainNavigationBar extends StatefulWidget {
   const MainNavigationBar({Key? key}) : super(key: key);
@@ -92,7 +93,7 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
       context,
       items: _tabs,
       navBarHeight: 70,
-      screens: const [SizedBox(), SizedBox(), TheraChatScreen(), SizedBox(), SizedBox()],
+      screens: const [SizedBox(), SizedBox(), TheraChatScreen(), SizedBox(), SettingsScreen()],
       onItemSelected: (index) {},
       padding: const NavBarPadding.only(top: 10),
       selectedTabScreenContext: (context) {},

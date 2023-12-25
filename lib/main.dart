@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:theta_chat/common/constants/app_global_constants.dart';
-import 'package:theta_chat/feature/launch/presentation/ui/launch_screen.dart';
 import 'package:theta_chat/di/service_locator.dart' as di_locator;
+import 'package:theta_chat/feature/splash/presetation/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const LaunchScreen(),
+      home: const SplashScreen(),
     );
   }
 }
