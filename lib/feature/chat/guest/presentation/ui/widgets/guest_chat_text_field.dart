@@ -5,10 +5,12 @@ import 'package:theta_chat/config/theme.dart';
 class GuestChatTextField extends StatelessWidget {
   const GuestChatTextField({
     Key? key,
+    this.autofocus = true,
     required this.controller,
     required this.onSendMessage,
   }) : super(key: key);
 
+  final bool autofocus;
   final Function() onSendMessage;
   final TextEditingController controller;
 
@@ -29,8 +31,14 @@ class GuestChatTextField extends StatelessWidget {
               border: Border.all(color: AppColors.grey300),
             ),
             child: TextField(
-              autofocus: true,
+              autofocus: autofocus,
               controller: controller,
+              minLines: 1,
+              // Минимальное количество строк
+              maxLines: 3,
+              // Ограничивает количество строк максимум тремя
+              keyboardType: TextInputType.multiline,
+              // Включает поддержку многострочного ввода
               style: AppTextStyle.body1,
               textInputAction: TextInputAction.send,
               onSubmitted: (v) => onSendMessage(),

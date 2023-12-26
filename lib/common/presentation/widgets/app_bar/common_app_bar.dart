@@ -4,7 +4,6 @@ import 'package:theta_chat/common/presentation/widgets/app_wbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_icon_button.dart';
 import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/chat/guest/presentation/ui/guest_chat_screen.dart';
-import 'package:theta_chat/feature/launch/presentation/ui/launch_screen.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CommonAppBar({
@@ -12,11 +11,13 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.height,
     this.leadingIcon,
     this.leadingSize = 22,
+    required this.onPressLeading,
   });
 
   final double? height;
   final double leadingSize;
   final String? leadingIcon;
+  final Function() onPressLeading;
 
   @override
   Size get preferredSize => Size.fromHeight(height ?? 60);
@@ -29,13 +30,8 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.transparent,
       leading: AppIconButton(
+        onPress: onPressLeading,
         leadingIcon ?? AppIcons.icUserOutline,
-        onPress: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const LaunchScreen(),
-          ),
-        ),
         iconSize: leadingSize,
       ),
       title: SvgPicture.asset(

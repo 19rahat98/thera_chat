@@ -39,14 +39,14 @@ class _AppWaitingAnimatedDotsState extends State<AppWaitingAnimatedDots>
       children: [
         const WBox(24),
         Container(
-          padding: const EdgeInsets.fromLTRB(24, 20, 16, 20),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           decoration: BoxDecoration(
             color: AppColors.grey200,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: List.generate(
               3,
               (index) => AnimatedBuilder(

@@ -16,6 +16,10 @@ import 'package:theta_chat/feature/chat/guest/data/repository/guest_chat_reposit
 import 'package:theta_chat/feature/chat/guest/domain/use_cases/get_guest_chat_history_use_case.dart';
 import 'package:theta_chat/feature/chat/guest/domain/use_cases/sent_guest_message_use_case.dart';
 import 'package:theta_chat/feature/chat/guest/domain/use_cases/start_guest_chat_use_case.dart';
+import 'package:theta_chat/feature/chat/thera_chat/data/repository/thera_chat_repository.dart';
+import 'package:theta_chat/feature/chat/thera_chat/domain/use_cases/get_thera_chat_history_use_case.dart';
+import 'package:theta_chat/feature/chat/thera_chat/domain/use_cases/sent_message_to_thera_use_case.dart';
+import 'package:theta_chat/feature/chat/thera_chat/domain/use_cases/start_thera_chat_use_case.dart';
 
 final sl = GetIt.instance;
 
@@ -53,6 +57,7 @@ void _repositoryModule() {
   sl
     ..registerFactory(AuthRepository.new)
     ..registerFactory(GlobalPersonalSecureDataRepository.new)
+    ..registerFactory(TheraChatRepository.new)
     ..registerFactory(GuestChatRepository.new);
 }
 
@@ -81,6 +86,9 @@ void _useCaseModule() {
     ..registerFactory(GlobalGetUserDataUseCase.new)
     ..registerFactory(StartGuestChatUseCase.new)
     ..registerFactory(GetGuestChatHistoryUseCase.new)
+    ..registerFactory(GetTheraChatHistoryUseCase.new)
+    ..registerFactory(SendMessageToTheraChatUseCase.new)
+    ..registerFactory(StartNewTheraChatUseCase.new)
     ..registerFactory(SendMessageAsGuestChatUseCase.new)
     ..registerFactory(CheckUserAccessUseCase.new);
 }

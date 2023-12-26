@@ -14,6 +14,16 @@ class MainNavigationBar extends StatefulWidget {
 }
 
 class _MainNavigationBarState extends State<MainNavigationBar> {
+  // Текущий индекс выбранной вкладки
+  int _currentIndex = 0;
+  late PersistentTabController _controller;
+
+  @override
+  void initState() {
+    _controller = PersistentTabController();
+    super.initState();
+  }
+
   /// табы нижней навигации
   List<PersistentBottomNavBarItem> get _tabs => [
         PersistentBottomNavBarItem(
@@ -31,6 +41,7 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
           ),
         ),
         PersistentBottomNavBarItem(
+          contentPadding: 1000,
           icon: const NavBarIconItemWidget(
             title: 'Meditation',
             iconName: AppIcons.icMeditationBody,
@@ -46,8 +57,8 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
         ),
         PersistentBottomNavBarItem(
           icon: Container(
-            width: 52,
-            height: 52,
+            width: 100,
+            height: 100,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: AppColors.inDevPrimary,
@@ -93,11 +104,26 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
       context,
       items: _tabs,
       navBarHeight: 70,
-      screens: const [SizedBox(), SizedBox(), TheraChatScreen(), SizedBox(), SettingsScreen()],
-      onItemSelected: (index) {},
+      controller: _controller,
+      onItemSelected: (index) {
+        if (index == 2) {
+          _controller.jumpToTab(_currentIndex);
+          // Открываем новый экран для третьей вкладки
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const TheraChatScreen(),
+            ),
+          );
+        } else {
+          // Обновляем текущий индекс вкладки
+          _currentIndex = index;
+        }
+      },
+      screens: const [SizedBox(), SizedBox(), SizedBox(), SizedBox(), SettingsScreen()],
       padding: const NavBarPadding.only(top: 10),
       selectedTabScreenContext: (context) {},
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       hideNavigationBarWhenKeyboardShows: false,
       backgroundColor: Colors.white,
       bottomScreenMargin: 45,
@@ -105,7 +131,13 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
         duration: Duration(milliseconds: 200),
         curve: Curves.ease,
       ),
-      navBarStyle: NavBarStyle.style2,
+      navBarStyle: NavBarStyle.style8,
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

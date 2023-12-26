@@ -19,7 +19,8 @@ class _TheraChatOnboardingScreenState extends State<TheraChatOnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey20,
-      appBar: const CommonAppBar(
+      appBar: CommonAppBar(
+        onPressLeading: () => Navigator.pop(context),
         leadingSize: 30,
         leadingIcon: AppIcons.icCross,
       ),

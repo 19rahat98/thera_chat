@@ -37,7 +37,10 @@ class _GuestChatScreenState extends ConsumerState<GuestChatScreen> {
     final guestChatController = ref.read(guestChatProvider.notifier);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CommonAppBar(height: 54),
+      appBar: CommonAppBar(
+        onPressLeading: () => Navigator.pop(context),
+        height: 54,
+      ),
       body: Column(
         children: [
           Expanded(
