@@ -28,7 +28,12 @@ class GuestChatState extends Equatable {
 
   /// Создает состояние с ошибкой.
   const GuestChatState.error(String message, List<ChatMessage> chat)
-      : this._(status: GuestChatStatus.failure, errorMessage: message, chat: chat);
+      : this._(
+          chat: chat,
+          errorMessage: message,
+          isWaitingAssistant: false,
+          status: GuestChatStatus.failure,
+        );
 
   /// Флаг, указывающий, идет ли загрузка.
   final bool isLoading;

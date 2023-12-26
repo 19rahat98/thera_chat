@@ -25,9 +25,9 @@ class _GuestChatScreenState extends ConsumerState<GuestChatScreen> {
   final TextEditingController _textController = TextEditingController();
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     jumpToBottomOfScroll();
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
@@ -38,41 +38,50 @@ class _GuestChatScreenState extends ConsumerState<GuestChatScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CommonAppBar(height: 54),
-      body: AppLoadingContainer(
-        isLoading: state.isLoading,
-        child: KeyboardDismisser(
-          child: ListView.separated(
-            itemCount: state.chat.length,
-            controller: _scrollController,
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
-            separatorBuilder: (context, _) => const HBox(20),
-            itemBuilder: (context, index) {
-              final chat = state.chat[index];
-              if (state.isWaitingAssistant && state.chat.length == index + 1) {
-                return const AppWaitingAnimatedDots();
-              } else if (chat.isAssistantMessage) {
-                return AppAssistantMessage(chat.message);
-              }
-              return AppOutcomeMessage(
-                chat.message,
-                isHaveError: state.errorMessage != null,
-              );
-            },
+      body: Column(
+        children: [
+          Expanded(
+            child: AppLoadingContainer(
+              isLoading: state.isLoading,
+              child: KeyboardDismisser(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: state.chat.length,
+                  controller: _scrollController,
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
+                  separatorBuilder: (context, _) => const HBox(20),
+                  itemBuilder: (context, index) {
+                    final chat = state.chat[index];
+                    if (state.isWaitingAssistant && state.chat.length == index + 1) {
+                      return const AppWaitingAnimatedDots();
+                    } else if (chat.isAssistantMessage) {
+                      return AppAssistantMessage(chat.message);
+                    }
+                    return AppOutcomeMessage(
+                      chat.message,
+                      isHaveError: state.errorMessage != null,
+                    );
+                  },
+                ),
+              ),
+            ),
           ),
-        ),
-      ),
-      bottomNavigationBar: Visibility(
-        visible: state.status == GuestChatStatus.onboarding,
-        replacement: GuestChatTextField(
-          onSendMessage: () {
-            guestChatController.sendNewMessage(_textController.text);
-            _textController.clear();
-          },
-          controller: _textController,
-        ),
-        child: GuestChatBottomActionBar(
-          activateChat: guestChatController.startGuestChat,
-        ),
+          Visibility(
+            visible: state.status == GuestChatStatus.onboarding,
+            replacement: GuestChatTextField(
+              onSendMessage: () {
+                if (!state.isWaitingAssistant && _textController.text.isNotEmpty) {
+                  guestChatController.sendNewMessage(_textController.text);
+                  _textController.clear();
+                }
+              },
+              controller: _textController,
+            ),
+            child: GuestChatBottomActionBar(
+              activateChat: guestChatController.startGuestChat,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -116,9 +125,16 @@ class _GuestChatScreenState extends ConsumerState<GuestChatScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _scrollController.animateTo(
         curve: Curves.ease,
-        _scrollController.position.maxScrollExtent - 30,
+        _scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 300),
       );
     });
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 }

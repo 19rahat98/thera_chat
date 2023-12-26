@@ -20,7 +20,7 @@ class GuestChatTextField extends StatelessWidget {
         top: false,
         child: Container(
           color: AppColors.grey50,
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          padding: EdgeInsets.fromLTRB(16, 8, 16, MediaQuery.of(context).viewInsets.bottom + 12),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
@@ -29,10 +29,11 @@ class GuestChatTextField extends StatelessWidget {
               border: Border.all(color: AppColors.grey300),
             ),
             child: TextField(
-              autofocus: true,
+              //autofocus: true,
               controller: controller,
               style: AppTextStyle.body1,
-              onSubmitted: (v) => onSendMessage,
+              textInputAction: TextInputAction.send,
+              onSubmitted: (v) => onSendMessage(),
               decoration: InputDecoration(
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
