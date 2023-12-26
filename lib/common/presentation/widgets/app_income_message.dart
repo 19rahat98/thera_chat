@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theta_chat/common/presentation/widgets/app_common_divider_widget.dart';
 import 'package:theta_chat/config/theme.dart';
 
-class AppIncomeMessage extends StatelessWidget {
-  const AppIncomeMessage(
+class AppAssistantMessage extends StatelessWidget {
+  const AppAssistantMessage(
     this.message, {
     Key? key,
     this.enableAdditionAction = false,
@@ -18,19 +18,10 @@ class AppIncomeMessage extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Container(
+        SizedBox(
           width: 20,
           height: 20,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: RadialGradient(
-              center: const Alignment(0, 0), // near the top right
-              colors: [
-                const Color(0xFFAA00F3).withOpacity(.5),
-                const Color(0xFFD267FF).withOpacity(0),
-              ],
-            ),
-          ),
+          child: SvgPicture.asset(AppIcons.icAssistantLogo),
         ),
         Flexible(
           child: Container(

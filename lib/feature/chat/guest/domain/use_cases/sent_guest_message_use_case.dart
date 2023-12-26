@@ -2,15 +2,16 @@ import 'package:theta_chat/common/domain/abstract/core_use_case.dart';
 import 'package:theta_chat/di/service_locator.dart';
 import 'package:theta_chat/feature/chat/guest/data/repository/guest_chat_repository.dart';
 import 'package:theta_chat/feature/chat/guest/domain/entity/chat_entity.dart';
+import 'package:theta_chat/feature/chat/guest/domain/entity/chat_message_entity.dart';
 
 /// Use case для отправки сообщения в гостевой чат.
 ///
 /// Этот use case отвечает за отправку текстового сообщения от пользователя в гостевой чат.
 /// Для отправки сообщения используется репозиторий [GuestChatRepository], который обеспечивает
 /// абстракцию слоя данных.
-class SendMessageToGuestChatUseCase extends CoreFutureUseCase<UserMessageParam, ChatEntity> {
+class SendMessageAsGuestChatUseCase extends CoreFutureUseCase<UserMessageParam, ChatMessage> {
   // Инициализация репозитория через сервис-локатор (sl), обеспечивая разделение зависимостей.
-  SendMessageToGuestChatUseCase() : _repository = sl();
+  SendMessageAsGuestChatUseCase() : _repository = sl();
 
   // Репозиторий, который занимается операциями, связанными с гостевым чатом.
   final GuestChatRepository _repository;
@@ -21,7 +22,7 @@ class SendMessageToGuestChatUseCase extends CoreFutureUseCase<UserMessageParam, 
   ///
   /// Принимает [param] - параметры сообщения, включая идентификатор сессии чата и текст сообщения.
   /// Возвращает Future, который разрешается в сущность [ChatEntity], представляющую отправленное сообщение.
-  Future<ChatEntity> execute(UserMessageParam param) async {
+  Future<ChatMessage> execute(UserMessageParam param) async {
     // Вызов репозитория для отправки сообщения в гостевой чат.
     final result = await _repository.sentMessageToGuestChat(
       param.id,
@@ -29,7 +30,8 @@ class SendMessageToGuestChatUseCase extends CoreFutureUseCase<UserMessageParam, 
     );
 
     // Преобразование DTO в сущность ChatEntity.
-    return ChatEntity.fromDto(result);
+    final message = ChatEntity.fromDto(result);
+    return ChatMessage(role: 'assistant', message: message.text);
   }
 }
 

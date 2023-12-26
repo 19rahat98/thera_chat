@@ -1,152 +1,124 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:theta_chat/common/constants/app_core_constant.dart';
 import 'package:theta_chat/common/presentation/widgets/app_bar/common_app_bar.dart';
 import 'package:theta_chat/common/presentation/widgets/app_hbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/app_income_message.dart';
+import 'package:theta_chat/common/presentation/widgets/app_loading_container.dart';
 import 'package:theta_chat/common/presentation/widgets/app_outcome_message.dart';
 import 'package:theta_chat/common/presentation/widgets/app_waiting_animated_dots.dart';
-import 'package:theta_chat/common/presentation/widgets/app_wbox_widget.dart';
-import 'package:theta_chat/common/presentation/widgets/buttons/app_filled_color_button.dart';
-import 'package:theta_chat/common/presentation/widgets/buttons/app_icon_button.dart';
-import 'package:theta_chat/common/presentation/widgets/buttons/app_outline_button_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
-import 'package:theta_chat/config/theme.dart';
-import 'package:theta_chat/feature/launch/presentation/ui/launch_screen.dart';
+import 'package:theta_chat/common/presentation/widgets/snack_bars.dart';
+import 'package:theta_chat/feature/chat/guest/presentation/controller/guest_chat_controller.dart';
+import 'package:theta_chat/feature/chat/guest/presentation/ui/widgets/guest_chat_bottom_bar.dart';
+import 'package:theta_chat/feature/chat/guest/presentation/ui/widgets/guest_chat_text_field.dart';
 
-class GuestChatScreen extends StatefulWidget {
+class GuestChatScreen extends ConsumerStatefulWidget {
   const GuestChatScreen({Key? key}) : super(key: key);
 
   @override
-  State<GuestChatScreen> createState() => _GuestChatScreenState();
+  _GuestChatScreenState createState() => _GuestChatScreenState();
 }
 
-class _GuestChatScreenState extends State<GuestChatScreen> {
-  bool _enableTextField = false;
-  var chatting = [
-    'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation venia consequat sunt nostrud amet.cccc',
-    'Привет, меня зовут Эмма.',
-    'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation venia consequat sunt nostrud amet.cccc',
-    'Привет, меня зовут Эмма.',
-    'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation venia consequat sunt nostrud amet.cccc',
-    'Привет, меня зовут Эмма.',
-  ];
+class _GuestChatScreenState extends ConsumerState<GuestChatScreen> {
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _textController = TextEditingController();
+
+  @override
+  void initState() {
+    jumpToBottomOfScroll();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    listenState(context, ref);
+    final state = ref.watch(guestChatProvider);
+    final guestChatController = ref.read(guestChatProvider.notifier);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CommonAppBar(height: 54),
-      body: KeyboardDismisser(
-        child: ListView.separated(
-          itemCount: chatting.length,
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
-          separatorBuilder: (context, _) => const HBox(20),
-          itemBuilder: (context, index) {
-            if (index == 5 && !_enableTextField) {
-              return const AppWaitingAnimatedDots();
-            } else if (index % 2 == 0 || index > 5) {
-              return AppIncomeMessage(
-                chatting.first,
-                enableAdditionAction: index > 5,
+      body: AppLoadingContainer(
+        isLoading: state.isLoading,
+        child: KeyboardDismisser(
+          child: ListView.separated(
+            itemCount: state.chat.length,
+            controller: _scrollController,
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+            separatorBuilder: (context, _) => const HBox(20),
+            itemBuilder: (context, index) {
+              final chat = state.chat[index];
+              if (state.isWaitingAssistant && state.chat.length == index + 1) {
+                return const AppWaitingAnimatedDots();
+              } else if (chat.isAssistantMessage) {
+                return AppAssistantMessage(chat.message);
+              }
+              return AppOutcomeMessage(
+                chat.message,
+                isHaveError: state.errorMessage != null,
               );
-            }
-            return AppOutcomeMessage(chatting.last);
-          },
+            },
+          ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: buildFloatingActionWidget(),
+      bottomNavigationBar: Visibility(
+        visible: state.status == GuestChatStatus.onboarding,
+        replacement: GuestChatTextField(
+          onSendMessage: () {
+            guestChatController.sendNewMessage(_textController.text);
+            _textController.clear();
+          },
+          controller: _textController,
+        ),
+        child: GuestChatBottomActionBar(
+          activateChat: guestChatController.startGuestChat,
+        ),
+      ),
     );
   }
 
-  Widget buildFloatingActionWidget() {
-    if (_enableTextField) {
-      return Container(
-        color: Colors.white,
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.grey300),
-          ),
-          child: TextField(
-            autofocus: true,
-            style: AppTextStyle.body1,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              errorBorder: InputBorder.none,
-              disabledBorder: InputBorder.none,
-              suffixIcon: Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: AppColors.grey50,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: AppIconButton(
-                  AppIcons.icSendOutline,
-                  onPress: () {},
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
-      child: Row(
-        children: [
-          Expanded(
-            child: AppFilledColorButton(
-              onTap: () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const LaunchScreen(),
-                ),
-              ),
-              height: 40,
-              borderRadiusRadii: 24,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    AppIcons.icUserOutline,
-                    color: Colors.white,
-                  ),
-                  const WBox(8),
-                  const Text('Вход'),
-                ],
-              ),
-            ),
-          ),
-          const WBox(20),
-          Expanded(
-            child: AppOutlineButtonWidget(
-              onTap: () {
-                _enableTextField = true;
-                chatting.addAll([
-                  'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation venia consequat sunt nostrud amet.cccc',
-                  'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation venia consequat sunt nostrud amet.cccc',
-                ]);
-                setState(() {});
-              },
-              borderRadiusRadii: 24,
-              constraints: const BoxConstraints(maxHeight: 40),
-              child: Text(
-                'Остаться как гость',
-                style: AppTextStyle.button2,
-              ),
-            ),
-          ),
-        ],
-      ),
+  /// Отслеживает все изменения состояния провайдера `guestChatProvider`.
+  ///
+  /// Этот метод используется для реагирования на изменения в состоянии чата. При каждом
+  /// изменении состояния, описанного в [GuestChatState], выполняются соответствующие действия.
+  ///
+  /// Возможные действия в зависимости от изменения состояния:
+  ///   - При ошибке (статус `GuestChatStatus.failure`) показывается снэкбар с сообщением об ошибке.
+  ///   - При изменении содержимого чата (сравнивается с предыдущим состоянием) происходит прокрутка к
+  ///     самому нижнему сообщению в чате.
+  void listenState(BuildContext context, WidgetRef ref) {
+    ref.listen<GuestChatState>(
+      guestChatProvider,
+      (previous, current) {
+        if (current.status == GuestChatStatus.failure) {
+          showErrorSnackBar(context, current.errorMessage ?? CoreConstant.error);
+        } else if (previous?.chat != current.chat ||
+            previous?.isWaitingAssistant != current.isWaitingAssistant) {
+          jumpToBottomOfScroll();
+        }
+      },
     );
+  }
+
+  /// Перемещает скролл к самому нижнему сообщению в списке.
+  ///
+  /// Этот метод используется для автоматического прокручивания содержимого виджета прокрутки
+  /// (например, списка сообщений в чате) к самому последнему элементу. Это удобно, когда
+  /// нужно сразу отобразить самые последние сообщения, например, после получения нового сообщения
+  /// или при открытии чата.
+  ///
+  /// Метод использует [WidgetsBinding.instance.addPostFrameCallback] для того, чтобы
+  /// дождаться завершения всех расчетов отрисовки UI перед прокруткой. Это гарантирует, что
+  /// прокрутка будет работать корректно даже если UI еще не полностью построен.
+  ///
+  /// Использует [ScrollController.animateTo] для плавной прокрутки к нужной позиции.
+  void jumpToBottomOfScroll() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _scrollController.animateTo(
+        curve: Curves.ease,
+        _scrollController.position.maxScrollExtent - 30,
+        duration: const Duration(milliseconds: 300),
+      );
+    });
   }
 }

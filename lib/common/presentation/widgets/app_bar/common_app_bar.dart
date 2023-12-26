@@ -27,6 +27,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: true,
       backgroundColor: Colors.white,
+      surfaceTintColor: Colors.transparent,
       leading: AppIconButton(
         leadingIcon ?? AppIcons.icUserOutline,
         onPress: () => Navigator.push(

@@ -81,6 +81,6 @@ void _useCaseModule() {
     ..registerFactory(GlobalGetUserDataUseCase.new)
     ..registerFactory(StartGuestChatUseCase.new)
     ..registerFactory(GetGuestChatHistoryUseCase.new)
-    ..registerFactory(SendMessageToGuestChatUseCase.new)
+    ..registerFactory(SendMessageAsGuestChatUseCase.new)
     ..registerFactory(CheckUserAccessUseCase.new);
 }

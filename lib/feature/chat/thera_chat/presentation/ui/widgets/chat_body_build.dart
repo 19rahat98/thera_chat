@@ -29,7 +29,7 @@ class ChatBodyBuild extends StatelessWidget {
                 if (index == 6) {
                   return const AppWaitingAnimatedDots();
                 } else if (index % 2 == 0 || index > 5) {
-                  return AppIncomeMessage(chatting.first);
+                  return AppAssistantMessage(chatting.first);
                 }
                 return AppOutcomeMessage(
                   chatting.last,

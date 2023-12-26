@@ -47,6 +47,7 @@ class AppIcons {
   static const icBookNav = 'assets/icons/ic_book_nav.svg';
   static const icSettingsOutline = 'assets/icons/ic_settings_outline.svg';
   static const icChatFilled = 'assets/icons/ic_chat_filled.svg';
+  static const icAssistantLogo = 'assets/icons/ic_assistant_logo.svg';
 }
 
 class AppImages {

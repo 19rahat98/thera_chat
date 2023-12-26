@@ -21,8 +21,8 @@ class AppOutcomeMessage extends StatelessWidget {
         if (isHaveError) SvgPicture.asset(AppIcons.icInformationFilled),
         Flexible(
           child: Container(
-            padding: const EdgeInsets.fromLTRB(24, 20, 16, 20),
-            margin: EdgeInsets.only(left: isHaveError? 4 :36, right: 4),
+            margin: EdgeInsets.only(left: isHaveError ? 4 : 36, right: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             decoration: BoxDecoration(
               color: AppColors.inDevPrimary600,
               borderRadius: BorderRadius.circular(20),
