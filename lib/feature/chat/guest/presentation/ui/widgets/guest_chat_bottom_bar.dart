@@ -18,7 +18,7 @@ class GuestChatBottomActionBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.grey50,
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 30),
       child: Row(
         children: [
           Expanded(

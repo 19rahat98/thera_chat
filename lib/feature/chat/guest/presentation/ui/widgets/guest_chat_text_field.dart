@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theta_chat/common/presentation/widgets/buttons/app_icon_button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theta_chat/config/theme.dart';
 
 class GuestChatTextField extends StatelessWidget {
@@ -29,7 +29,7 @@ class GuestChatTextField extends StatelessWidget {
               border: Border.all(color: AppColors.grey300),
             ),
             child: TextField(
-              //autofocus: true,
+              autofocus: true,
               controller: controller,
               style: AppTextStyle.body1,
               textInputAction: TextInputAction.send,
@@ -40,16 +40,23 @@ class GuestChatTextField extends StatelessWidget {
                 enabledBorder: InputBorder.none,
                 errorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
-                suffixIcon: Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: AppColors.grey50,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: AppIconButton(
-                    AppIcons.icSendOutline,
-                    onPress: onSendMessage,
+                suffixIconConstraints: const BoxConstraints(
+                  maxHeight: 32,
+                  maxWidth: 32,
+                ),
+                suffixIcon: Material(
+                  color: AppColors.grey50,
+                  borderRadius: BorderRadius.circular(6),
+                  child: IconButton(
+                    onPressed: onSendMessage,
+                    splashRadius: 30,
+                    padding: EdgeInsets.zero,
+                    icon: SvgPicture.asset(
+                      AppIcons.icSendOutline,
+                      color: AppColors.grey500,
+                      width: 24,
+                      height: 24,
+                    ),
                   ),
                 ),
               ),
