@@ -48,6 +48,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
         fit: StackFit.expand,
         children: [
           AnimatedSwitcher(
+            key: ValueKey(_currentIndex),
             layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
               return Stack(
                 fit: StackFit.expand,

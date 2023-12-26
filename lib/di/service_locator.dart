@@ -12,6 +12,10 @@ import 'package:theta_chat/feature/auth/common/domain/use_cases/authentication_u
 import 'package:theta_chat/feature/auth/common/domain/use_cases/get_user_data_use_case.dart';
 import 'package:theta_chat/feature/auth/login/domain/use_cases/sign_in_with_email_use_case.dart';
 import 'package:theta_chat/feature/auth/sign_up/domain/use_cases/sign_up_with_email_use_case.dart';
+import 'package:theta_chat/feature/chat/guest/data/repository/guest_chat_repository.dart';
+import 'package:theta_chat/feature/chat/guest/domain/use_cases/get_guest_chat_history_use_case.dart';
+import 'package:theta_chat/feature/chat/guest/domain/use_cases/sent_guest_message_use_case.dart';
+import 'package:theta_chat/feature/chat/guest/domain/use_cases/start_guest_chat_use_case.dart';
 
 final sl = GetIt.instance;
 
@@ -48,7 +52,8 @@ Future<void> _dataSourceModule() async {
 void _repositoryModule() {
   sl
     ..registerFactory(AuthRepository.new)
-    ..registerFactory(GlobalPersonalSecureDataRepository.new);
+    ..registerFactory(GlobalPersonalSecureDataRepository.new)
+    ..registerFactory(GuestChatRepository.new);
 }
 
 void _registerAuthorizedHttpClient() {
@@ -74,5 +79,8 @@ void _useCaseModule() {
     ..registerFactory(GlobalSignInWithEmailUseCase.new)
     ..registerFactory(GlobalSignUpWithEmailUseCase.new)
     ..registerFactory(GlobalGetUserDataUseCase.new)
+    ..registerFactory(StartGuestChatUseCase.new)
+    ..registerFactory(GetGuestChatHistoryUseCase.new)
+    ..registerFactory(SendMessageToGuestChatUseCase.new)
     ..registerFactory(CheckUserAccessUseCase.new);
 }
