@@ -23,12 +23,21 @@ class GuestChatController extends StateNotifier<GuestChatState> with CoreRequest
         _sendMessageAsGuest = sl(),
         super(GuestChatState.onboarding());
 
+// Use case для начала новой сессии гостевого чата.
   final StartGuestChatUseCase _startGuestChat;
+
+  // Use case для отправки сообщений как гость.
   final SendMessageAsGuestChatUseCase _sendMessageAsGuest;
 
+  // Идентификатор текущего чата.
   String _chatId = CoreConstant.empty;
+
+  // Список сообщений в чате.
   List<ChatMessage> _chatMessages = [];
 
+  /// Начинает новую сессию гостевого чата.
+  ///
+  /// Запускает асинхронный запрос на создание нового чата.
   Future<void> startGuestChat() async {
     final request = _startGuestChat.execute();
     state = const GuestChatState.loading();
@@ -45,6 +54,9 @@ class GuestChatController extends StateNotifier<GuestChatState> with CoreRequest
     );
   }
 
+  /// Отправляет новое сообщение в чат.
+  ///
+  /// [text] - текст сообщения для отправки.
   Future<void> sendNewMessage(String text) async {
     _chatMessages.addAll(
       [ChatMessage.userMessage(text), ChatMessage.emptyMessage()],

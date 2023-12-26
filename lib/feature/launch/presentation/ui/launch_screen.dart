@@ -8,6 +8,7 @@ import 'package:theta_chat/common/presentation/widgets/buttons/app_filled_color_
 import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/auth/login/presentation/ui/login_screen.dart';
 import 'package:theta_chat/feature/auth/sign_up/presentation/ui/sign_up_screen.dart';
+import 'package:theta_chat/feature/chat/guest/presentation/ui/guest_chat_screen.dart';
 
 class LaunchScreen extends StatefulWidget {
   const LaunchScreen({Key? key}) : super(key: key);
@@ -126,7 +127,12 @@ class _LaunchScreenState extends State<LaunchScreen> {
                 ),
               ),
               AppFilledColorButton(
-                onTap: () {},
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const GuestChatScreen(),
+                  ),
+                ),
                 color: Colors.white,
                 borderRadiusRadii: 30,
                 padding: const EdgeInsets.symmetric(vertical: 12),
