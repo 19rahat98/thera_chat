@@ -24,7 +24,7 @@ class SendMessageToTheraChatUseCase extends CoreFutureUseCase<TheraMessageParam,
   /// Возвращает Future, который разрешается в сущность [ChatEntity], представляющую отправленное сообщение.
   Future<ChatMessage> execute(TheraMessageParam param) async {
     // Вызов репозитория для отправки сообщения в Th3ra чат.
-    final result = await _repository.sentMessageToChat(param.toJson());
+    final result = await _repository.sentMessageToChat(param.toAuthJson());
 
     // Преобразование DTO в сущность ChatEntity.
     final message = ChatEntity.fromDto(result);
@@ -42,4 +42,9 @@ class TheraMessageParam {
 
   /// Преобразует параметры сообщения в JSON-формат для отправки.
   Map<String, dynamic> toJson() => {'message': message};
+
+  Map<String, dynamic> toAuthJson() => {
+    "role": "user",
+    "text": message
+  };
 }

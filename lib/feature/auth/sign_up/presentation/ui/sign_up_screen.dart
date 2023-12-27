@@ -62,14 +62,10 @@ class SignUpScreen extends ConsumerWidget {
                       ),
                       const HBox(16),
                       AppLabelTextFieldWidget(
+                        inputType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         label: 'Phone number and email',
                         onValueChanged: signUpController.setEmail,
-                        onSubmitted: (v) {
-                          if (state.isButtonEnable) {
-                            signUpController.signUpWithEmail();
-                          }
-                        },
                       ),
                       const HBox(8),
                       Text(
@@ -82,6 +78,11 @@ class SignUpScreen extends ConsumerWidget {
                       AppLabelTextFieldWidget(
                         label: 'Password',
                         isPassword: true,
+                        onSubmitted: (v) {
+                          if (state.isButtonEnable) {
+                            signUpController.signUpWithEmail();
+                          }
+                        },
                         onValueChanged: signUpController.setPassword,
                       ),
                       const HBox(20),
