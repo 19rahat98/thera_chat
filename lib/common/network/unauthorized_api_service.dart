@@ -24,7 +24,7 @@ class UnauthorizedApiService {
   /// обновление токена
   Future<Response> refreshToken(String refreshToken) async {
     final client = await _httpClient;
-    return client.get<dynamic>('/token/refresh/$refreshToken}');
+    return client.get<dynamic>('/token/refresh/$refreshToken');
   }
 
   /// -------------- GUEST CHAT -------------- ///

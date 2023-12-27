@@ -38,7 +38,7 @@ class TheraChatController extends StateNotifier<TheraChatState> with CoreRequest
         state = state.copyWith(chat: _chatMessages = result);
       },
       errorData: (exception, status) {
-        state = TheraChatState.error(exception?.errorMessage ?? CoreConstant.error, _chatMessages);
+        state = TheraChatState.error(exception?.message ?? CoreConstant.error, _chatMessages);
       },
     );
   }
@@ -63,7 +63,7 @@ class TheraChatController extends StateNotifier<TheraChatState> with CoreRequest
       errorData: (exception, status) {
         _chatMessages.removeLast();
         state = TheraChatState.error(
-          exception?.errorMessage ?? CoreConstant.error,
+          exception?.message ?? CoreConstant.error,
           _chatMessages,
         );
       },

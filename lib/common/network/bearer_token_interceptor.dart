@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:theta_chat/common/constants/app_global_constants.dart';
 import 'package:theta_chat/common/constants/app_global_network_constant.dart';
 import 'package:theta_chat/di/service_locator.dart';
 import 'package:theta_chat/feature/auth/common/data/repository/authorized_repository.dart';
@@ -47,9 +46,7 @@ class BearerTokenInterceptor extends InterceptorsWrapper {
       try {
         final authResponse = await _authRepository.refreshToken();
         final accessToken = authResponse.access;
-        _secureDataRepository.setAccessToken(
-          accessToken ?? AppGlobalConstants.emptyString,
-        );
+        _secureDataRepository.setAccessToken(accessToken);
         requestOptions?.headers[GlobalNetworkConstant.authorization] =
             '${GlobalNetworkConstant.bearer} $accessToken';
 

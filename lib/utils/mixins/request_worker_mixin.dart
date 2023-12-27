@@ -121,7 +121,7 @@ mixin CoreRequestWorkedMixin {
     required Future<T> request,
     CoreLoadingData? loading,
     CoreResultData<T>? resultData,
-    required CoreErrorData errorData,
+    required CoreErrorData<V> errorData,
   }) async {
     loading?.call(true);
     try {
@@ -133,7 +133,7 @@ mixin CoreRequestWorkedMixin {
       _makeHttpException<V>(ex, errorData);
     } catch (ex, s) {
       loading?.call(false);
-      _makeException<String>(s, errorData);
+      _makeException<V>(s, errorData);
     }
   }
 
@@ -220,7 +220,7 @@ mixin CoreRequestWorkedMixin {
   }
 
   /// отображает различные исключения
-  void _makeException<String>(dynamic ex, CoreErrorData errorData) {
-    errorData.call(_defaultError, ExceptionType.defaultError);
+  void _makeException<String>(dynamic ex, CoreErrorData<String> errorData) {
+    errorData.call(_defaultError as String?, ExceptionType.defaultError);
   }
 }

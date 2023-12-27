@@ -39,7 +39,7 @@ Future<T> safeApiCallWithDataBase<T>({
       }
       final data = ex.response?.data;
       final message = _handleDioErrorType(ex, data);
-      throw HttpRequestException<String>(
+      throw HttpRequestException<dynamic>(
         message: message,
         code: ex.response?.statusCode ?? CoreConstant.negative,
         httpTypeError: HttpTypeError.http,
@@ -65,7 +65,7 @@ Future<T> safeApiCall<T>(
     if (ex is DioError) {
       final data = ex.response?.data;
       final message = _handleDioErrorType(ex, data);
-      throw HttpRequestException<String>(
+      throw HttpRequestException<dynamic>(
         message: message,
         httpTypeError: HttpTypeError.http,
         code: ex.response?.statusCode ?? CoreConstant.negative,
@@ -91,7 +91,7 @@ Future<T> safeApiCallList<T>(
     if (ex is DioError) {
       final data = ex.response?.data;
       final message = _handleDioErrorType(ex, data);
-      throw HttpRequestException<String>(
+      throw HttpRequestException<dynamic>(
         message: message,
         code: ex.response?.statusCode ?? CoreConstant.negative,
         httpTypeError: HttpTypeError.http,
@@ -115,7 +115,7 @@ Future<void> safeApiCallVoid(
     if (ex is DioError) {
       final data = ex.response?.data;
       final message = _handleDioErrorType(ex, data);
-      throw HttpRequestException<String>(
+      throw HttpRequestException<dynamic>(
         message: message,
         code: ex.response?.statusCode ?? CoreConstant.zeroInt,
         httpTypeError: HttpTypeError.http,

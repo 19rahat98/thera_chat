@@ -49,7 +49,7 @@ class GuestChatController extends StateNotifier<GuestChatState> with CoreRequest
         _chatId = result.chatId;
       },
       errorData: (exception, status) {
-        state = GuestChatState.error(exception?.errorMessage ?? CoreConstant.error, _chatMessages);
+        state = GuestChatState.error(exception?.message ?? CoreConstant.error, _chatMessages);
       },
     );
   }
@@ -77,7 +77,7 @@ class GuestChatController extends StateNotifier<GuestChatState> with CoreRequest
       errorData: (exception, status) {
         _chatMessages.removeLast();
         state = GuestChatState.error(
-          exception?.errorMessage ?? CoreConstant.error,
+          exception?.message ?? CoreConstant.error,
           _chatMessages,
         );
       },

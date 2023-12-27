@@ -65,6 +65,7 @@ class TheraChatState extends Equatable {
     bool? isWaitingAssistant,
   }) {
     return TheraChatState._(
+      errorMessage: null,
       chat: chat ?? this.chat,
       status: status ?? this.status,
       isLoading: isLoading ?? this.isLoading,
