@@ -15,6 +15,7 @@ class AppColors {
   static const grey200 = Color(0xFFE5EAF2);
   static const grey300 = Color(0xFFC8CFDA);
   static const grey500 = Color(0xFF737986);
+  static const grey600 = Color(0xFF545C73);
   static const grey700 = Color(0xFF394360);
   static const inDevPrimary = Color(0xFF9400D3);
   static const inDevPrimary100 = Color(0xFFFBCAFC);
@@ -47,7 +48,9 @@ class AppIcons {
   static const icBookNav = 'assets/icons/ic_book_nav.svg';
   static const icSettingsOutline = 'assets/icons/ic_settings_outline.svg';
   static const icChatFilled = 'assets/icons/ic_chat_filled.svg';
-  static const icAssistantLogo = 'assets/icons/ic_assistant_logo.svg';
+
+  /// PNG
+  static const icAssistantLogo = 'assets/images/ic_assistent_squircle.png';
 }
 
 class AppImages {
@@ -109,6 +112,12 @@ class AppTextStyle {
   static final caption1 = GoogleFonts.nunito(
     fontSize: 12,
     color: AppColors.secondary,
+    fontWeight: FontWeight.w400,
+  );
+
+  static final caption2 = GoogleFonts.nunito(
+    fontSize: 10,
+    color: Colors.black,
     fontWeight: FontWeight.w400,
   );
 }

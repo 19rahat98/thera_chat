@@ -19,9 +19,9 @@ class ChatMessage {
   }
 
   /// Создаем пустой мэсейдж для ассистента
-  factory ChatMessage.emptyMessage() => ChatMessage(
+  factory ChatMessage.emptyMessage({String? text}) => ChatMessage(
         role: 'assistant',
-        message: CoreConstant.empty,
+        message: text ?? CoreConstant.empty,
       );
 
   /// Создает экземпял обьекта для сообщений юзера
@@ -36,4 +36,6 @@ class ChatMessage {
 
   /// Проверка, чея это сообщение
   bool get isAssistantMessage => role == 'assistant';
+
+  bool get isAdditionalMessage => role == 'additional';
 }

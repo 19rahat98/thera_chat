@@ -26,16 +26,15 @@ class SignUpState extends Equatable {
   // copyWith method
   SignUpState copyWith({
     bool? isLoading,
-    SignUpStatus? status,
-    String? errorMessage,
     String? errorEmail,
+    SignUpStatus? status,
     ValidationPasswordEntity? validationPassword,
   }) {
     return SignUpState._(
+      errorMessage: null,
       isLoading: isLoading ?? this.isLoading,
       status: status ?? this.status,
       errorEmail: errorEmail ?? this.errorEmail,
-      errorMessage: errorMessage ?? this.errorMessage,
       validationPassword: validationPassword ?? this.validationPassword,
     );
   }

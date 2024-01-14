@@ -26,7 +26,6 @@ class SingUpController extends StateNotifier<SignUpState> with CoreRequestWorked
   String _email = CoreConstant.empty;
   String _name = CoreConstant.empty;
   String _surname = CoreConstant.empty;
-  String _phone = CoreConstant.empty;
   String _password = CoreConstant.empty;
 
   /// Метод для входа в систему с использованием электронной почты и пароля.
@@ -101,6 +100,7 @@ class SingUpController extends StateNotifier<SignUpState> with CoreRequestWorked
 
     // Обновление состояния валидации
     state = state.copyWith(
+      status: SignUpStatus.common,
       validationPassword: ValidationPasswordEntity(
         strength: strength,
         isHaveSymbol: isHaveSymbol,

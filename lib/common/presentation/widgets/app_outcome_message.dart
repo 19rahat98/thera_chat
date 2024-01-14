@@ -18,7 +18,10 @@ class AppOutcomeMessage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        if (isHaveError) SvgPicture.asset(AppIcons.icInformationFilled),
+        Visibility(
+          visible: isHaveError,
+          child: SvgPicture.asset(AppIcons.icInformationFilled),
+        ),
         Flexible(
           child: Container(
             margin: EdgeInsets.only(left: isHaveError ? 4 : 36, right: 4),
@@ -31,14 +34,6 @@ class AppOutcomeMessage extends StatelessWidget {
               message,
               style: AppTextStyle.body1.copyWith(color: Colors.white),
             ),
-          ),
-        ),
-        Container(
-          width: 20,
-          height: 20,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.grey200,
           ),
         ),
       ],

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:theta_chat/common/presentation/widgets/app_wbox_widget.dart';
 import 'package:theta_chat/config/theme.dart';
 
 class AppWaitingAnimatedDots extends StatefulWidget {
@@ -36,9 +35,15 @@ class _AppWaitingAnimatedDotsState extends State<AppWaitingAnimatedDots>
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        const WBox(24),
+        SizedBox(
+          width: 20,
+          height: 20,
+          child: Image.asset(AppIcons.icAssistantLogo),
+        ),
         Container(
+          margin: const EdgeInsets.only(left: 4, right: 36),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           decoration: BoxDecoration(
             color: AppColors.grey200,
@@ -57,10 +62,8 @@ class _AppWaitingAnimatedDotsState extends State<AppWaitingAnimatedDots>
                   height: _highlightedDotIndex == index ? 12 : 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border:
-                        _highlightedDotIndex == index ? null : Border.all(color: AppColors.primary),
                     color:
-                        _highlightedDotIndex == index ? AppColors.inDevPrimary : Colors.transparent,
+                        _highlightedDotIndex == index ? AppColors.inDevPrimary : AppColors.primary,
                   ),
                 ),
               ),

@@ -40,8 +40,7 @@ class GuestChatTextField extends StatelessWidget {
               keyboardType: TextInputType.multiline,
               // Включает поддержку многострочного ввода
               style: AppTextStyle.body1,
-              textInputAction: TextInputAction.send,
-              onSubmitted: (v) => onSendMessage(),
+              textInputAction: TextInputAction.newline,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,

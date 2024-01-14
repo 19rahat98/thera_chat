@@ -21,7 +21,7 @@ class AppAssistantMessage extends StatelessWidget {
         SizedBox(
           width: 20,
           height: 20,
-          child: SvgPicture.asset(AppIcons.icAssistantLogo),
+          child: Image.asset(AppIcons.icAssistantLogo),
         ),
         Flexible(
           child: Container(

@@ -39,7 +39,9 @@ class AuthRepository {
   }
 
   ///
-  Future<void> signOut() async {}
+  Future<void> signOut() async {
+    return _dataSource.clearAll();
+  }
 
   /// Логинется с помощью эмейла
   Future<GlobalAccessDTO> singInWithEmail(SignInEmailParam param) async {

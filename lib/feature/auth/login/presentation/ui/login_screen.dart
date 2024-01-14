@@ -10,9 +10,9 @@ import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
 import 'package:theta_chat/common/presentation/widgets/snack_bars.dart';
 import 'package:theta_chat/common/presentation/widgets/textfields/app_label_textfield.dart';
 import 'package:theta_chat/config/theme.dart';
+import 'package:theta_chat/feature/auth/common/presentation/controller/authentication_controller.dart';
 import 'package:theta_chat/feature/auth/forget_password/presentation/ui/forget_password_screen.dart';
 import 'package:theta_chat/feature/auth/login/presentation/controller/sign_in_controller.dart';
-import 'package:theta_chat/feature/nav_bar/presentation/ui/main_navigation_bar.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -107,12 +107,9 @@ class LoginScreen extends ConsumerWidget {
         if (current is FailureSignInState) {
           showErrorSnackBar(context, current.errorMessage ?? CoreConstant.error);
         } else if (current is SuccessSignInState) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const MainNavigationBar(),
-            ),
-          );
+          final authController = ref.read(authProvider.notifier);
+          authController.getUserData();
+          Navigator.pop(context);
         }
       },
     );

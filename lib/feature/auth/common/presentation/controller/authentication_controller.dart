@@ -49,6 +49,7 @@ class AuthController extends StateNotifier<AuthenticationState> with CoreRequest
 
   /// Получаем данные об юзера
   Future<void> getUserData() async {
+    state = const AuthenticationState._();
     final request = _getUserData.execute();
 
     await launchWithAuthError<UserDetailEntity, GlobalAuthException>(

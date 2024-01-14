@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:theta_chat/common/presentation/widgets/app_hbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:theta_chat/config/theme.dart';
-import 'package:theta_chat/feature/chat/thera_chat/presentation/ui/thera_chat_onboarding_screen.dart';
+import 'package:theta_chat/feature/onboarding/presentation/ui/thera_chat_onboarding_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);

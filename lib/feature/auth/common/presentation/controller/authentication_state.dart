@@ -19,10 +19,10 @@ class AuthenticationState extends Equatable {
   final AuthenticationStatus status;
 
   const AuthenticationState.authenticated(UserDetailEntity user)
-      : this._(status: AuthenticationStatus.authenticated, user: user);
+      : this._(status: AuthenticationStatus.authenticated, user: user, errorMessage: null);
 
   const AuthenticationState.unauthenticated()
-      : this._(status: AuthenticationStatus.unauthenticated);
+      : this._(status: AuthenticationStatus.unauthenticated, user: null);
 
   const AuthenticationState.error(String message)
       : this._(status: AuthenticationStatus.failure, errorMessage: message);

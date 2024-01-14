@@ -9,6 +9,7 @@ import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
 import 'package:theta_chat/common/presentation/widgets/snack_bars.dart';
 import 'package:theta_chat/common/presentation/widgets/textfields/app_label_textfield.dart';
 import 'package:theta_chat/config/theme.dart';
+import 'package:theta_chat/feature/auth/common/presentation/controller/authentication_controller.dart';
 import 'package:theta_chat/feature/auth/sign_up/presentation/controller/sign_up_controller.dart';
 import 'package:theta_chat/feature/auth/sign_up/presentation/ui/widgets/password_validation_errors.dart';
 import 'package:theta_chat/feature/nav_bar/presentation/ui/main_navigation_bar.dart';
@@ -169,12 +170,9 @@ class SignUpScreen extends ConsumerWidget {
         if (current.status == SignUpStatus.failure) {
           showErrorSnackBar(context, current.errorMessage ?? CoreConstant.error);
         } else if (current.status == SignUpStatus.success) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const MainNavigationBar(),
-            ),
-          );
+          final authController = ref.read(authProvider.notifier);
+          authController.getUserData();
+          Navigator.pop(context);
         }
       },
     );

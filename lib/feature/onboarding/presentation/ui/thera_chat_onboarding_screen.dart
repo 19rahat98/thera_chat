@@ -4,87 +4,84 @@ import 'package:theta_chat/common/constants/app_core_constant.dart';
 import 'package:theta_chat/common/presentation/widgets/app_bar/common_app_bar.dart';
 import 'package:theta_chat/common/presentation/widgets/app_hbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/app_income_message.dart';
-import 'package:theta_chat/common/presentation/widgets/app_loading_container.dart';
 import 'package:theta_chat/common/presentation/widgets/app_outcome_message.dart';
 import 'package:theta_chat/common/presentation/widgets/app_waiting_animated_dots.dart';
 import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
 import 'package:theta_chat/common/presentation/widgets/snack_bars.dart';
-import 'package:theta_chat/feature/chat/guest/presentation/controller/guest_chat_controller.dart';
-import 'package:theta_chat/feature/chat/guest/presentation/ui/widgets/guest_chat_bottom_bar.dart';
-import 'package:theta_chat/feature/chat/guest/presentation/ui/widgets/guest_chat_text_field.dart';
+import 'package:theta_chat/config/theme.dart';
+import 'package:theta_chat/feature/onboarding/presentation/controller/onboarding_riverpod.dart';
+import 'package:theta_chat/feature/onboarding/presentation/ui/widgets/onboarding_footer.dart';
+import 'package:theta_chat/feature/splash/presetation/splash_screen.dart';
 
-class GuestChatScreen extends ConsumerStatefulWidget {
-  const GuestChatScreen({Key? key}) : super(key: key);
+class TheraChatOnboardingScreen extends ConsumerStatefulWidget {
+  const TheraChatOnboardingScreen({Key? key}) : super(key: key);
 
   @override
-  GuestChatScreenState createState() => GuestChatScreenState();
+  TheraChatOnboardingScreenState createState() => TheraChatOnboardingScreenState();
 }
 
-class GuestChatScreenState extends ConsumerState<GuestChatScreen> {
+class TheraChatOnboardingScreenState extends ConsumerState<TheraChatOnboardingScreen> {
+  final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  final TextEditingController _textController = TextEditingController();
-
-  @override
-  void didChangeDependencies() {
-    jumpToBottomOfScroll();
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
     listenState(context, ref);
-    final state = ref.watch(guestChatProvider);
-    final guestChatController = ref.read(guestChatProvider.notifier);
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CommonAppBar(
-        onPressLeading: () => Navigator.pop(context),
-        height: 54,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: AppLoadingContainer(
-              isLoading: state.isLoading,
-              child: KeyboardDismisser(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: state.chat.length,
-                  controller: _scrollController,
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
-                  separatorBuilder: (context, _) => const HBox(20),
-                  itemBuilder: (context, index) {
-                    final chat = state.chat[index];
-                    if (state.isWaitingAssistant && state.chat.length == index + 1) {
-                      return const AppWaitingAnimatedDots();
-                    } else if (chat.isAssistantMessage) {
-                      return AppAssistantMessage(chat.message);
-                    }
-                    return AppOutcomeMessage(
-                      chat.message,
-                      isHaveError: state.errorMessage != null,
+    final state = ref.watch(onboardingProvider);
+    final onboardingProviderController = ref.read(onboardingProvider.notifier);
+    return KeyboardDismisser(
+      child: Scaffold(
+        backgroundColor: AppColors.grey20,
+        appBar: CommonAppBar(
+          onPressLeading: () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const SplashScreen(),
+            ),
+          ),
+          leadingSize: 30,
+          leadingIcon: AppIcons.icUserOutline,
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: state.chat.length,
+                controller: _scrollController,
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
+                separatorBuilder: (context, _) => const HBox(20),
+                itemBuilder: (context, index) {
+                  final chat = state.chat[index];
+                  if (state.isLoading && state.chat.length == index + 1) {
+                    return const AppWaitingAnimatedDots();
+                  } else if (chat.isAdditionalMessage) {
+                    return Center(
+                      child: Text(
+                        chat.message,
+                        style: AppTextStyle.caption1.copyWith(color: AppColors.grey600),
+                      ),
                     );
-                  },
-                ),
+                  } else if (chat.isAssistantMessage) {
+                    return AppAssistantMessage(chat.message);
+                  }
+                  return AppOutcomeMessage(chat.message);
+                },
               ),
             ),
-          ),
-          Visibility(
-            visible: state.status == GuestChatStatus.onboarding,
-            replacement: GuestChatTextField(
+            OnboardingFooter(
+              state,
+              controller: _controller,
+              activateChat: onboardingProviderController.stayLikeGuest,
               onSendMessage: () {
-                if (!state.isWaitingAssistant && _textController.text.isNotEmpty) {
-                  guestChatController.sendNewMessage(_textController.text);
-                  _textController.clear();
+                if (!state.isLoading && _controller.text.isNotEmpty) {
+                  onboardingProviderController.sendNewMessage(_controller.text);
+                  _controller.clear();
                 }
               },
-              controller: _textController,
             ),
-            child: GuestChatBottomActionBar(
-              activateChat: guestChatController.startGuestChat,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -99,13 +96,12 @@ class GuestChatScreenState extends ConsumerState<GuestChatScreen> {
   ///   - При изменении содержимого чата (сравнивается с предыдущим состоянием) происходит прокрутка к
   ///     самому нижнему сообщению в чате.
   void listenState(BuildContext context, WidgetRef ref) {
-    ref.listen<GuestChatState>(
-      guestChatProvider,
+    ref.listen<OnboardingState>(
+      onboardingProvider,
       (previous, current) {
-        if (current.status == GuestChatStatus.failure) {
+        if (current.status == OnboardingStatus.failure) {
           showErrorSnackBar(context, current.errorMessage ?? CoreConstant.error);
-        } else if (previous?.chat != current.chat ||
-            previous?.isWaitingAssistant != current.isWaitingAssistant) {
+        } else if (previous?.chat != current.chat || previous?.isLoading != current.isLoading) {
           jumpToBottomOfScroll();
         }
       },
@@ -136,7 +132,7 @@ class GuestChatScreenState extends ConsumerState<GuestChatScreen> {
 
   @override
   void dispose() {
-    _textController.dispose();
+    _controller.dispose();
     _scrollController.dispose();
     super.dispose();
   }
