@@ -60,7 +60,15 @@ class AuthController extends StateNotifier<AuthenticationState> with CoreRequest
       },
       errorData: (exception, type) {
         state = AuthenticationState.error(exception?.message ?? CoreConstant.empty);
+        state = const AuthenticationState.unauthenticated();
       },
+    );
+  }
+
+  // Меняем данные юзера
+  void updateUserData(UserDetailEntity? data) {
+    state = AuthenticationState.authenticated(
+      data ?? const UserDetailEntity(),
     );
   }
 

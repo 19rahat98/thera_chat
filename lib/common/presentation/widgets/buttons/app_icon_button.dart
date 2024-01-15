@@ -8,6 +8,7 @@ class AppIconButton extends StatelessWidget {
     Key? key,
     this.onPress,
     this.color,
+    this.background,
     this.iconSize = 22,
   }) : super(key: key);
 
@@ -15,11 +16,12 @@ class AppIconButton extends StatelessWidget {
   final Color? color;
   final double iconSize;
   final Function()? onPress;
+  final Color? background;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: background ?? Colors.white,
       child: IconButton(
         onPressed: onPress,
         splashRadius: 20,

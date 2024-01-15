@@ -6,7 +6,12 @@ import 'package:theta_chat/config/theme.dart';
 void showSuccessSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(message),
+      content: Text(
+        message,
+        style: AppTextStyle.caption1.copyWith(
+          color: Colors.white,
+        ),
+      ),
       backgroundColor: CupertinoColors.activeGreen,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
@@ -22,7 +27,12 @@ void showSuccessSnackBar(BuildContext context, String message) {
 void showErrorSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(message),
+      content: Text(
+        message,
+        style: AppTextStyle.caption1.copyWith(
+          color: Colors.white,
+        ),
+      ),
       backgroundColor: AppColors.error500,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(

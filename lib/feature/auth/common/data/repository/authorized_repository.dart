@@ -72,4 +72,12 @@ class AuthRepository {
       UserDetailDto.fromJson,
     );
   }
+
+  /// Изменит данные юзера
+  Future<UserDetailDto> updateUserData(Map<String, dynamic> data) async {
+    return safeApiCall<UserDetailDto>(
+      _authorizedApiService.updateUserData(data),
+      UserDetailDto.fromJson,
+    );
+  }
 }

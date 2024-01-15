@@ -4,6 +4,7 @@ import 'package:theta_chat/common/constants/app_core_constant.dart';
 import 'package:theta_chat/common/presentation/widgets/app_bar/flex_app_bar.dart';
 import 'package:theta_chat/common/presentation/widgets/app_hbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/app_loading_container.dart';
+import 'package:theta_chat/common/presentation/widgets/app_terms_and_policy_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_filled_color_button.dart';
 import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
 import 'package:theta_chat/common/presentation/widgets/snack_bars.dart';
@@ -12,7 +13,6 @@ import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/auth/common/presentation/controller/authentication_controller.dart';
 import 'package:theta_chat/feature/auth/sign_up/presentation/controller/sign_up_controller.dart';
 import 'package:theta_chat/feature/auth/sign_up/presentation/ui/widgets/password_validation_errors.dart';
-import 'package:theta_chat/feature/nav_bar/presentation/ui/main_navigation_bar.dart';
 
 class SignUpScreen extends ConsumerWidget {
   const SignUpScreen({super.key});
@@ -92,47 +92,7 @@ class SignUpScreen extends ConsumerWidget {
                       const Expanded(
                         child: SizedBox(),
                       ),
-                      RichText(
-                        textAlign: TextAlign.start,
-                        text: TextSpan(
-                          text: 'By selecting Agree and continue, I agree to ',
-                          style: AppTextStyle.body2,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Th3ra',
-                              style: AppTextStyle.body2.copyWith(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ' Terms of Service, Payments Terms of Service ',
-                              style: AppTextStyle.body2.copyWith(
-                                color: AppColors.inDevPrimary,
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'and',
-                              style: AppTextStyle.body2,
-                            ),
-                            TextSpan(
-                              text: ' Notification Policy',
-                              style: AppTextStyle.body2.copyWith(
-                                color: AppColors.inDevPrimary,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ' and acknowledge the ',
-                              style: AppTextStyle.body2,
-                            ),
-                            TextSpan(
-                              text: 'Privacy Policy.',
-                              style: AppTextStyle.body2.copyWith(
-                                color: AppColors.inDevPrimary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      const AppTermsAndPolicyWidget(),
                       const HBox(16),
                       AppFilledColorButton(
                         onTap: () {

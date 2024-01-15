@@ -31,6 +31,13 @@ class FlexAppBar extends StatelessWidget implements PreferredSizeWidget {
         iconSize: 30,
       ),
       title: Text(title, style: AppTextStyle.h4),
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(4.0),
+        child: Container(
+          color: AppColors.grey200,
+          height: 1.0,
+        ),
+      ),
     );
   }
 }

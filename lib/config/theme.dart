@@ -17,6 +17,7 @@ class AppColors {
   static const grey500 = Color(0xFF737986);
   static const grey600 = Color(0xFF545C73);
   static const grey700 = Color(0xFF394360);
+  static const grey900 = Color(0xFF161D40);
   static const inDevPrimary = Color(0xFF9400D3);
   static const inDevPrimary100 = Color(0xFFFBCAFC);
   static const inDevPrimary400 = Color(0xFFD267FF);
@@ -48,12 +49,17 @@ class AppIcons {
   static const icBookNav = 'assets/icons/ic_book_nav.svg';
   static const icSettingsOutline = 'assets/icons/ic_settings_outline.svg';
   static const icChatFilled = 'assets/icons/ic_chat_filled.svg';
+  static const icUserFilled = 'assets/icons/ic_user_filled.svg';
+  static const icMailFilled = 'assets/icons/ic_mail_filled.svg';
+  static const icBellFilled = 'assets/icons/ic_notify_bell_filled.svg';
 
   /// PNG
   static const icAssistantLogo = 'assets/images/ic_assistent_squircle.png';
+  static const icAssistantSquireOutline = 'assets/images/ic_assistent_squircle_outline.png';
 }
 
 class AppImages {
+  static const icBackgroundSettings = 'assets/images/ic_background_settings.png';
   static const icMeditationBackground1 = 'assets/images/ic_meditation_background_1.jpg';
   static const icMeditationBackground2 = 'assets/images/ic_meditation_background_2.jpg';
 }
@@ -107,6 +113,12 @@ class AppTextStyle {
     fontSize: 14,
     color: AppColors.grey700,
     fontWeight: FontWeight.w700,
+  );
+
+  static final button3 = GoogleFonts.nunito(
+    fontSize: 14,
+    color: AppColors.inDevPrimary,
+    fontWeight: FontWeight.w500,
   );
 
   static final caption1 = GoogleFonts.nunito(

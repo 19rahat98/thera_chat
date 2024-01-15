@@ -17,6 +17,18 @@ class AuthorizedApiService {
     return client.get<dynamic>('/profile');
   }
 
+  /// Изменение данных о пользователе.
+  ///
+  /// Возвращает ответ сервера на PATHC-запрос к эндпоинту '/profile/update',
+  /// который содержит изменненную информацию о пользователе.
+  Future<Response> updateUserData(Map<String, dynamic> data) async {
+    final client = await _httpClient;
+    return client.patch<dynamic>(
+      '/profile/update',
+      data: data,
+    );
+  }
+
   /// Начало нового чата.
   ///
   /// Отправляет POST-запрос к эндпоинту '/chat/start' для инициации нового чата.
