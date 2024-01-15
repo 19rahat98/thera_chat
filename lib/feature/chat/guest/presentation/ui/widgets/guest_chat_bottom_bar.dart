@@ -4,7 +4,7 @@ import 'package:theta_chat/common/presentation/widgets/app_wbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_filled_color_button.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_outline_button_widget.dart';
 import 'package:theta_chat/config/theme.dart';
-import 'package:theta_chat/feature/launch/presentation/ui/launch_screen.dart';
+import 'package:theta_chat/feature/auth/login/presentation/ui/login_screen.dart';
 
 class GuestChatBottomActionBar extends StatelessWidget {
   const GuestChatBottomActionBar({
@@ -26,7 +26,7 @@ class GuestChatBottomActionBar extends StatelessWidget {
               onTap: () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => const LaunchScreen(),
+                  builder: (_) => const LoginScreen(),
                 ),
               ),
               height: 40,

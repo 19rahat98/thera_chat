@@ -3,8 +3,8 @@ import 'package:theta_chat/common/presentation/widgets/app_hbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_tile_button.dart';
 import 'package:theta_chat/config/theme.dart';
+import 'package:theta_chat/feature/auth/login/presentation/ui/login_screen.dart';
 import 'package:theta_chat/feature/confidentiality/presentation/ui/confidentiality_screen.dart';
-import 'package:theta_chat/feature/launch/presentation/ui/launch_screen.dart';
 
 class SettingGuestBody extends StatelessWidget {
   const SettingGuestBody({Key? key}) : super(key: key);
@@ -57,7 +57,9 @@ class SettingGuestBody extends StatelessWidget {
         AppTextButton(
           onTap: () => Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (_) => const LaunchScreen()),
+            MaterialPageRoute(
+              builder: (_) => const LoginScreen(),
+            ),
             ModalRoute.withName('/'),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12),

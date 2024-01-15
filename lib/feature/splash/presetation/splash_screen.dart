@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:theta_chat/common/presentation/widgets/app_bar/common_app_bar.dart';
 import 'package:theta_chat/feature/auth/common/presentation/controller/authentication_controller.dart';
+import 'package:theta_chat/feature/auth/login/presentation/ui/login_screen.dart';
 import 'package:theta_chat/feature/chat/thera_chat/presentation/ui/thera_chat_screen.dart';
 import 'package:theta_chat/feature/chat/thera_chat/presentation/ui/widgets/chat_radius_animation.dart';
-import 'package:theta_chat/feature/launch/presentation/ui/launch_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class SplashScreen extends StatelessWidget {
         return const TheraChatScreen();
       }
 
-      return const LaunchScreen();
+      return const LoginScreen();
     });
   }
 }

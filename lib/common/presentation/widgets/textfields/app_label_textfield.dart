@@ -25,7 +25,6 @@ class AppLabelTextFieldWidget extends StatefulWidget {
     this.errorMessage,
     this.maxLength,
     this.textInputAction,
-    this.margin,
     this.contentPadding,
     this.fontSize,
     this.fontWeight,
@@ -37,7 +36,7 @@ class AppLabelTextFieldWidget extends StatefulWidget {
     this.hintTextValue,
     this.onSubmitted,
     this.autofocus = false,
-    this.removeButton = false,
+    this.labelStyle,
     this.borderRadius = const BorderRadius.all(Radius.circular(24)),
   }) : super(key: key);
 
@@ -98,9 +97,6 @@ class AppLabelTextFieldWidget extends StatefulWidget {
   /// показывает action на кравиатуре, работает во всмеми типами кроме int
   final TextInputAction? textInputAction;
 
-  /// добавляет margin
-  final EdgeInsetsGeometry? margin;
-
   /// добавляет паддинг для контента(label или text)
   final EdgeInsetsGeometry? contentPadding;
 
@@ -130,7 +126,7 @@ class AppLabelTextFieldWidget extends StatefulWidget {
 
   final Iterable<String>? autofillHints;
 
-  final bool removeButton;
+  final TextStyle? labelStyle;
 
   @override
   State<AppLabelTextFieldWidget> createState() => _AppLabelTextFieldWidgetState();
@@ -168,7 +164,7 @@ class _AppLabelTextFieldWidgetState extends State<AppLabelTextFieldWidget> {
           alignment: Alignment.center,
           padding: const EdgeInsets.only(left: 16, top: 6, bottom: 4),
           decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: widget.color ?? Colors.transparent,
             border: Border.all(
               color: _borderColor,
             ),
@@ -203,7 +199,7 @@ class _AppLabelTextFieldWidgetState extends State<AppLabelTextFieldWidget> {
               enabledBorder: InputBorder.none,
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
-              labelStyle: AppTextStyle.caption1.copyWith(
+              labelStyle: widget.labelStyle ?? AppTextStyle.caption1.copyWith(
                 color: widget.errorMessage?.isNotEmpty == true
                     ? AppColors.error500
                     : AppColors.secondary,

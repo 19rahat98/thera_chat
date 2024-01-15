@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theta_chat/common/constants/app_core_constant.dart';
-import 'package:theta_chat/common/presentation/widgets/app_bar/flex_app_bar.dart';
+import 'package:theta_chat/common/presentation/painters/semi_circle.dart';
 import 'package:theta_chat/common/presentation/widgets/app_hbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/app_loading_container.dart';
+import 'package:theta_chat/common/presentation/widgets/app_wbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_filled_color_button.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
@@ -13,6 +15,7 @@ import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/auth/common/presentation/controller/authentication_controller.dart';
 import 'package:theta_chat/feature/auth/forget_password/presentation/ui/forget_password_screen.dart';
 import 'package:theta_chat/feature/auth/login/presentation/controller/sign_in_controller.dart';
+import 'package:theta_chat/feature/auth/sign_up/presentation/ui/sign_up_screen.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -30,66 +33,184 @@ class LoginScreen extends ConsumerWidget {
       return AppLoadingContainer(
         isLoading: state.isLoading,
         child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: const FlexAppBar('Log in'),
+          backgroundColor: AppColors.grey20,
           body: KeyboardDismisser(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  AppLabelTextFieldWidget(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Image.asset(
+                          AppImages.icMeditationBackground1,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                      Positioned(
+                        top: 83,
+                        left: 0,
+                        right: 0,
+                        child: SvgPicture.asset(
+                          AppIcons.icLaunchIcon,
+                        ),
+                      ),
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: CustomPaint(
+                          size:
+                              Size(MediaQuery.of(context).size.width, 0), // Size of the semi-circle
+                          painter: ConvexSemiCirclePainter(AppColors.grey20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: AppLabelTextFieldWidget(
                     autofocus: true,
+                    color: Colors.white,
                     onValueChanged: signInController.setEmail,
                     label: 'Phone number and email',
                     textInputAction: TextInputAction.next,
                     inputType: TextInputType.emailAddress,
+                    labelStyle: AppTextStyle.body1.copyWith(
+                      color: AppColors.secondary,
+                    ),
                   ),
-                  const HBox(16),
-                  AppLabelTextFieldWidget(
+                ),
+                const HBox(16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: AppLabelTextFieldWidget(
                     onValueChanged: signInController.setPassword,
                     onSubmitted: (v) {
                       if (state.isButtonIsEnable) {
                         signInController.launchSignIn();
                       }
                     },
+                    color: Colors.white,
                     label: 'Password',
                     isPassword: true,
                     errorMessage: state.errorPassword,
                     textInputAction: TextInputAction.go,
-                  ),
-                  const HBox(28),
-                  AppTextButton(
-                    onTap: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const ForgetPasswordScreen(),
-                      ),
+                    labelStyle: AppTextStyle.body1.copyWith(
+                      color: AppColors.secondary,
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    text: 'Forget password',
+                  ),
+                ),
+                const HBox(18),
+                AppFilledColorButton(
+                  onTap: () {
+                    if (state.isButtonIsEnable) {
+                      signInController.launchSignIn();
+                    }
+                  },
+                  borderRadiusRadii: 30,
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  color: state.isButtonIsEnable ? AppColors.inDevPrimary : AppColors.grey100,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Text(
+                    'Log In',
                     style: AppTextStyle.button1.copyWith(
-                      color: AppColors.inDevPrimary,
+                      color: state.isButtonIsEnable ? Colors.white : AppColors.grey300,
                     ),
                   ),
-                  const HBox(28),
-                  AppFilledColorButton(
-                    onTap: () {
-                      if (state.isButtonIsEnable) {
-                        signInController.launchSignIn();
-                      }
-                    },
-                    borderRadiusRadii: 30,
-                    color: state.isButtonIsEnable ? AppColors.inDevPrimary : AppColors.grey100,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      'Log In',
-                      style: AppTextStyle.button1.copyWith(
-                        color: state.isButtonIsEnable ? Colors.white : AppColors.grey300,
+                ),
+                const HBox(8),
+                AppTextButton(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ForgetPasswordScreen(),
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  text: 'Forget password',
+                  style: AppTextStyle.button3.copyWith(
+                    color: AppColors.inDevPrimary,
+                  ),
+                ),
+                const HBox(28),
+                Text(
+                  'Or continue with',
+                  style: AppTextStyle.caption1.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
+                const HBox(16),
+                Row(
+                  children: [
+                    const WBox(16),
+                    Expanded(
+                      child: AppFilledColorButton(
+                        borderRadiusRadii: 30,
+                        color: AppColors.grey100,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(AppIcons.icGoogleFilled),
+                            const WBox(8),
+                            Text(
+                              'Google',
+                              style: AppTextStyle.button1,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  )
-                ],
-              ),
+                    const WBox(18),
+                    Expanded(
+                      child: AppFilledColorButton(
+                        borderRadiusRadii: 30,
+                        color: AppColors.grey100,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(AppIcons.icAppleFilled),
+                            const WBox(8),
+                            Text(
+                              'Apple',
+                              style: AppTextStyle.button1,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const WBox(16),
+                  ],
+                ),
+                const HBox(16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Don’t have account?',
+                      style: AppTextStyle.button2.copyWith(
+                        color: AppColors.secondary,
+                      ),
+                    ),
+                    AppTextButton(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SignUpScreen(),
+                        ),
+                      ),
+                      text: 'Create now',
+                      style: AppTextStyle.button2.copyWith(
+                        color: AppColors.inDevPrimary500,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                    ),
+                  ],
+                ),
+                const HBox(32),
+              ],
             ),
           ),
         ),
