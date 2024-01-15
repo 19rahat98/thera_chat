@@ -8,6 +8,7 @@ import 'package:theta_chat/common/presentation/widgets/app_outcome_message.dart'
 import 'package:theta_chat/common/presentation/widgets/app_waiting_animated_dots.dart';
 import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
 import 'package:theta_chat/common/presentation/widgets/snack_bars.dart';
+import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/chat/guest/presentation/ui/widgets/guest_chat_text_field.dart';
 import 'package:theta_chat/feature/chat/thera_chat/presentation/controller/thera_chat_controller.dart';
 
@@ -15,10 +16,10 @@ class ChatBodyBuild extends ConsumerStatefulWidget {
   const ChatBodyBuild({Key? key}) : super(key: key);
 
   @override
-  _ChatBodyBuildState createState() => _ChatBodyBuildState();
+  ChatBodyBuildState createState() => ChatBodyBuildState();
 }
 
-class _ChatBodyBuildState extends ConsumerState<ChatBodyBuild> {
+class ChatBodyBuildState extends ConsumerState<ChatBodyBuild> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textController = TextEditingController();
 
@@ -49,6 +50,13 @@ class _ChatBodyBuildState extends ConsumerState<ChatBodyBuild> {
                   final chat = state.chat[index];
                   if (state.isWaitingAssistant && state.chat.length == index + 1) {
                     return const AppWaitingAnimatedDots();
+                  } else if (chat.isAdditionalMessage) {
+                    return Center(
+                      child: Text(
+                        chat.message,
+                        style: AppTextStyle.caption1.copyWith(color: AppColors.grey600),
+                      ),
+                    );
                   } else if (chat.isAssistantMessage) {
                     return AppAssistantMessage(chat.message);
                   }

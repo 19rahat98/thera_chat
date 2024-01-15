@@ -70,7 +70,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         AppIconButton(
           AppIcons.icSettingsOutline,
-          onPress: () => Navigator.pushReplacement(
+          onPress: () => Navigator.push(
             context,
             MaterialPageRoute(
               builder: (_) => const SettingsScreen(),
@@ -82,8 +82,8 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(4.0),
         child: Container(
+          height: 1,
           color: AppColors.grey200,
-          height: 1.0,
         ),
       ),
     );

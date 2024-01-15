@@ -35,6 +35,8 @@ class AuthController extends StateNotifier<AuthenticationState> with CoreRequest
   final GlobalGetUserDataUseCase _getUserData;
   final CheckUserAccessUseCase _checkUserAccess;
 
+  String asdas = 'asda ';
+
   // Асинхронный метод для проверки наличия токена доступа пользователя.
   // Обновляет состояние в зависимости от наличия активного токена.
   Future<void> checkUserData() async {

@@ -8,14 +8,10 @@ class TheraChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppColors.grey20,
-      appBar: CommonAppBar(
-        onPressLeading: () => Navigator.pop(context),
-        leadingSize: 30,
-        leadingIcon: AppIcons.icCross,
-      ),
-      body: const ChatBodyBuild(),
+      appBar: CommonAppBar(),
+      body: ChatBodyBuild(),
     );
   }
 }

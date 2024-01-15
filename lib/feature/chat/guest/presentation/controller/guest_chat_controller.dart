@@ -59,7 +59,7 @@ class GuestChatController extends StateNotifier<GuestChatState> with CoreRequest
   /// [text] - текст сообщения для отправки.
   Future<void> sendNewMessage(String text) async {
     _chatMessages.addAll(
-      [ChatMessage.userMessage(text), ChatMessage.emptyMessage()],
+      [ChatMessage.userMessage(text), ChatMessage.assistantMessage()],
     );
 
     final request = _sendMessageAsGuest.execute(

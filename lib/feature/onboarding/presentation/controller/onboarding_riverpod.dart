@@ -23,7 +23,7 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
         _sendMessageAsGuest = sl(),
         super(
           OnboardingState.loading([
-            ChatMessage.emptyMessage(),
+            ChatMessage.assistantMessage(),
           ]),
         );
 
@@ -45,7 +45,7 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
       const Duration(seconds: 2),
     );
     _chatMessages.add(
-      ChatMessage.emptyMessage(
+      ChatMessage.assistantMessage(
         text:
             'Приветствую тебя, умный и внимательный соучастник! Я рад видеть тебя здесь. Буду рад помочь в любых вопросах, связанных с психологией. Как вас зовут?',
       ),
@@ -62,7 +62,7 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
       const Duration(milliseconds: 1500),
     );
     _chatMessages.add(
-      ChatMessage.emptyMessage(
+      ChatMessage.assistantMessage(
           text:
               'Для начала можешь выбрать, зайти как постоянный пользователь, чтобы я мог запомнить твои предпочтения и продолжить наши беседы, или остаться анонимным гостем и получить помощь без сохранения информации. Какой вариант тебе ближе сейчас?'),
     );
@@ -75,7 +75,7 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
   Future<void> startGuestChat() async {
     final request = _startGuestChat.execute();
     _chatMessages.add(
-      ChatMessage.emptyMessage(),
+      ChatMessage.assistantMessage(),
     );
     state = OnboardingState.loading(_chatMessages);
 
@@ -86,7 +86,7 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
         _chatId = result.chatId;
         _chatMessages.removeLast();
         _chatMessages.add(
-          ChatMessage.emptyMessage(
+          ChatMessage.assistantMessage(
             text:
                 'Давайте познакомимся с доступными модулями. У меня есть несколько интересных инструментов, которые могут быть полезными. Хочешь ознакомится?',
           ),
@@ -105,10 +105,10 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
       const Duration(milliseconds: 1500),
     );
     _chatMessages.add(
-      ChatMessage(role: 'additional', message: 'Вы выбрали остаться как гость'),
+      ChatMessage.additionalMessage('Вы выбрали остаться как гость'),
     );
     _chatMessages.add(
-      ChatMessage.emptyMessage(
+      ChatMessage.assistantMessage(
         text:
             'Понимаю, что для некоторых людей анонимность очень важна, особенно при обсуждении личных или чувствительных вопросов. Это нормально и абсолютно в порядке. Главное, чтобы ты чувствовал себя комфортно и свободно выражать свои мысли и чувства. Готов помочь и поддержать в любой ситуации, которая тебе беспокоит.',
       ),
@@ -122,7 +122,7 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
   /// [text] - текст сообщения для отправки.
   Future<void> sendNewMessage(String text) async {
     _chatMessages.addAll(
-      [ChatMessage.userMessage(text), ChatMessage.emptyMessage()],
+      [ChatMessage.userMessage(text), ChatMessage.assistantMessage()],
     );
 
     final request = _sendMessageAsGuest.execute(
