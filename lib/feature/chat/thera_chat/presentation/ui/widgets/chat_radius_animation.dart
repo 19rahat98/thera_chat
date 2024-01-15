@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class ChatRadiusAnimation extends StatefulWidget {
   const ChatRadiusAnimation({
     Key? key,
-    required this.onComplete,
+    this.onComplete,
   }) : super(key: key);
 
-  final Function() onComplete;
+  final Function()? onComplete;
 
   @override
   State<ChatRadiusAnimation> createState() => _ChatRadiusAnimationState();
@@ -30,7 +30,7 @@ class _ChatRadiusAnimationState extends State<ChatRadiusAnimation>
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          widget.onComplete.call();
+          widget.onComplete?.call();
         }
       });
 

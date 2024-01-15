@@ -4,7 +4,6 @@ import 'package:theta_chat/common/presentation/widgets/app_hbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/app_wbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_icon_button.dart';
 import 'package:theta_chat/config/theme.dart';
-import 'package:theta_chat/feature/chat/guest/presentation/ui/guest_chat_screen.dart';
 import 'package:theta_chat/feature/settings/presentation/settings_screen.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -13,7 +12,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.height,
     this.leadingIcon,
     this.leadingSize = 22,
-    required this.onPressLeading,
+    this.onPressLeading,
   });
 
   final double? height;
