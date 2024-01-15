@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theta_chat/common/presentation/widgets/app_bar/flex_app_bar.dart';
+import 'package:theta_chat/common/presentation/widgets/app_bar/dynamic_app_bar.dart';
 import 'package:theta_chat/common/presentation/widgets/app_hbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_filled_color_button.dart';
 import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
@@ -14,38 +14,41 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-  bool _buttonIsActive = false;
+  final bool _buttonIsActive = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const FlexAppBar('Forget password'),
       body: KeyboardDismisser(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              const AppLabelTextFieldWidget(
+        child: Column(
+          children: [
+            const DynamicAppBar('Forget password'),
+            const HBox(36),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: AppLabelTextFieldWidget(
                 label: 'Phone number and email',
+                labelStyle: AppTextStyle.body1.copyWith(
+                  color: AppColors.secondary,
+                ),
               ),
-              const HBox(8),
-              Text(
+            ),
+            const HBox(8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
                 'Enters the email address you used to register with Thera. You will receive an email to define a new password.',
                 style: AppTextStyle.body2.copyWith(
                   color: AppColors.grey500,
                 ),
               ),
-              const HBox(16),
-              AppFilledColorButton(
-                onTap: () {
-                  if (_buttonIsActive) {
-                    return;
-                  }
-                  setState(() {
-                    _buttonIsActive = true;
-                  });
-                },
+            ),
+            const HBox(16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: AppFilledColorButton(
+                onTap: () {},
                 borderRadiusRadii: 30,
                 color: _buttonIsActive ? AppColors.inDevPrimary : AppColors.grey100,
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -55,9 +58,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     color: _buttonIsActive ? Colors.white : AppColors.grey300,
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

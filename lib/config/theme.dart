@@ -59,6 +59,8 @@ class AppIcons {
 }
 
 class AppImages {
+  static const icBackgroundSignUp = 'assets/images/ic_background_signup.svg';
+  static const icBackgroundForgetPassword = 'assets/images/ic_background_forget_password.svg';
   static const icBackgroundSettings = 'assets/images/ic_background_settings.png';
   static const icMeditationBackground1 = 'assets/images/ic_meditation_background_1.jpg';
   static const icMeditationBackground2 = 'assets/images/ic_meditation_background_2.jpg';
