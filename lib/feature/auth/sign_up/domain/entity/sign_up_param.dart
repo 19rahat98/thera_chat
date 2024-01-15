@@ -1,15 +1,15 @@
 class SignUpEmailParam {
   final String name;
   final String surname;
-  final String email;
+  final String? email;
   final String? phone;
   final String password;
 
   SignUpEmailParam({
     this.phone,
+    this.email,
     required this.name,
     required this.surname,
-    required this.email,
     required this.password,
   });
 

@@ -16,6 +16,7 @@ import 'package:theta_chat/feature/auth/common/presentation/controller/authentic
 import 'package:theta_chat/feature/auth/forget_password/presentation/ui/forget_password_screen.dart';
 import 'package:theta_chat/feature/auth/login/presentation/controller/sign_in_controller.dart';
 import 'package:theta_chat/feature/auth/sign_up/presentation/ui/sign_up_screen.dart';
+import 'package:theta_chat/feature/chat/thera_chat/presentation/ui/thera_chat_screen.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -35,182 +36,186 @@ class LoginScreen extends ConsumerWidget {
         child: Scaffold(
           backgroundColor: AppColors.grey20,
           body: KeyboardDismisser(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Image.asset(
-                          AppImages.icMeditationBackground1,
-                          fit: BoxFit.fitWidth,
+            child: SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 400,
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: Image.asset(
+                            AppImages.icMeditationBackground1,
+                            fit: BoxFit.fitWidth,
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        top: 83,
-                        left: 0,
-                        right: 0,
-                        child: SvgPicture.asset(
-                          AppIcons.icLaunchIcon,
+                        Positioned(
+                          top: 83,
+                          left: 0,
+                          right: 0,
+                          child: SvgPicture.asset(
+                            AppIcons.icLaunchIcon,
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: CustomPaint(
-                          size:
-                              Size(MediaQuery.of(context).size.width, 0), // Size of the semi-circle
-                          painter: ConvexSemiCirclePainter(AppColors.grey20),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: CustomPaint(
+                            size: Size(
+                                MediaQuery.of(context).size.width, 0), // Size of the semi-circle
+                            painter: ConvexSemiCirclePainter(AppColors.grey20),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: AppLabelTextFieldWidget(
-                    autofocus: true,
-                    color: Colors.white,
-                    onValueChanged: signInController.setEmail,
-                    label: 'Phone number and email',
-                    textInputAction: TextInputAction.next,
-                    inputType: TextInputType.emailAddress,
-                    labelStyle: AppTextStyle.body1.copyWith(
-                      color: AppColors.secondary,
+                      ],
                     ),
                   ),
-                ),
-                const HBox(16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: AppLabelTextFieldWidget(
-                    onValueChanged: signInController.setPassword,
-                    onSubmitted: (v) {
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: AppLabelTextFieldWidget(
+                      autofocus: true,
+                      color: Colors.white,
+                      onValueChanged: signInController.setEmail,
+                      label: 'Phone number and email',
+                      textInputAction: TextInputAction.next,
+                      inputType: TextInputType.emailAddress,
+                      labelStyle: AppTextStyle.body1.copyWith(
+                        color: AppColors.secondary,
+                      ),
+                    ),
+                  ),
+                  const HBox(16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: AppLabelTextFieldWidget(
+                      onValueChanged: signInController.setPassword,
+                      onSubmitted: (v) {
+                        if (state.isButtonIsEnable) {
+                          signInController.launchSignIn();
+                        }
+                      },
+                      color: Colors.white,
+                      label: 'Password',
+                      isPassword: true,
+                      errorMessage: state.errorPassword,
+                      textInputAction: TextInputAction.go,
+                      labelStyle: AppTextStyle.body1.copyWith(
+                        color: AppColors.secondary,
+                      ),
+                    ),
+                  ),
+                  const HBox(18),
+                  AppFilledColorButton(
+                    onTap: () {
                       if (state.isButtonIsEnable) {
                         signInController.launchSignIn();
                       }
                     },
-                    color: Colors.white,
-                    label: 'Password',
-                    isPassword: true,
-                    errorMessage: state.errorPassword,
-                    textInputAction: TextInputAction.go,
-                    labelStyle: AppTextStyle.body1.copyWith(
-                      color: AppColors.secondary,
+                    borderRadiusRadii: 30,
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    color: state.isButtonIsEnable ? AppColors.inDevPrimary : AppColors.grey100,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Text(
+                      'Log In',
+                      style: AppTextStyle.button1.copyWith(
+                        color: state.isButtonIsEnable ? Colors.white : AppColors.grey300,
+                      ),
                     ),
                   ),
-                ),
-                const HBox(18),
-                AppFilledColorButton(
-                  onTap: () {
-                    if (state.isButtonIsEnable) {
-                      signInController.launchSignIn();
-                    }
-                  },
-                  borderRadiusRadii: 30,
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  color: state.isButtonIsEnable ? AppColors.inDevPrimary : AppColors.grey100,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Text(
-                    'Log In',
-                    style: AppTextStyle.button1.copyWith(
-                      color: state.isButtonIsEnable ? Colors.white : AppColors.grey300,
+                  const HBox(8),
+                  AppTextButton(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const ForgetPasswordScreen(),
+                      ),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    text: 'Forget password',
+                    style: AppTextStyle.button3.copyWith(
+                      color: AppColors.inDevPrimary,
                     ),
                   ),
-                ),
-                const HBox(8),
-                AppTextButton(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const ForgetPasswordScreen(),
+                  const HBox(28),
+                  Text(
+                    'Or continue with',
+                    style: AppTextStyle.caption1.copyWith(
+                      color: AppColors.primary,
                     ),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  text: 'Forget password',
-                  style: AppTextStyle.button3.copyWith(
-                    color: AppColors.inDevPrimary,
-                  ),
-                ),
-                const HBox(28),
-                Text(
-                  'Or continue with',
-                  style: AppTextStyle.caption1.copyWith(
-                    color: AppColors.primary,
-                  ),
-                ),
-                const HBox(16),
-                Row(
-                  children: [
-                    const WBox(16),
-                    Expanded(
-                      child: AppFilledColorButton(
-                        borderRadiusRadii: 30,
-                        color: AppColors.grey100,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(AppIcons.icGoogleFilled),
-                            const WBox(8),
-                            Text(
-                              'Google',
-                              style: AppTextStyle.button1,
-                            ),
-                          ],
+                  const HBox(16),
+                  Row(
+                    children: [
+                      const WBox(16),
+                      Expanded(
+                        child: AppFilledColorButton(
+                          borderRadiusRadii: 30,
+                          color: AppColors.grey100,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(AppIcons.icGoogleFilled),
+                              const WBox(8),
+                              Text(
+                                'Google',
+                                style: AppTextStyle.button1,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const WBox(18),
-                    Expanded(
-                      child: AppFilledColorButton(
-                        borderRadiusRadii: 30,
-                        color: AppColors.grey100,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(AppIcons.icAppleFilled),
-                            const WBox(8),
-                            Text(
-                              'Apple',
-                              style: AppTextStyle.button1,
-                            ),
-                          ],
+                      const WBox(18),
+                      Expanded(
+                        child: AppFilledColorButton(
+                          borderRadiusRadii: 30,
+                          color: AppColors.grey100,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(AppIcons.icAppleFilled),
+                              const WBox(8),
+                              Text(
+                                'Apple',
+                                style: AppTextStyle.button1,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const WBox(16),
-                  ],
-                ),
-                const HBox(16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Don’t have account?',
-                      style: AppTextStyle.button2.copyWith(
-                        color: AppColors.secondary,
-                      ),
-                    ),
-                    AppTextButton(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const SignUpScreen(),
+                      const WBox(16),
+                    ],
+                  ),
+                  const HBox(16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Don’t have account?',
+                        style: AppTextStyle.button2.copyWith(
+                          color: AppColors.secondary,
                         ),
                       ),
-                      text: 'Create now',
-                      style: AppTextStyle.button2.copyWith(
-                        color: AppColors.inDevPrimary500,
+                      AppTextButton(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SignUpScreen(),
+                          ),
+                        ),
+                        text: 'Create now',
+                        style: AppTextStyle.button2.copyWith(
+                          color: AppColors.inDevPrimary500,
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                    ),
-                  ],
-                ),
-                const HBox(32),
-              ],
+                    ],
+                  ),
+                  const HBox(32),
+                ],
+              ),
             ),
           ),
         ),
@@ -230,7 +235,13 @@ class LoginScreen extends ConsumerWidget {
         } else if (current is SuccessSignInState) {
           final authController = ref.read(authProvider.notifier);
           authController.getUserData();
-          Navigator.pop(context);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const TheraChatScreen(),
+            ),
+            ModalRoute.withName('/'),
+          );
         }
       },
     );

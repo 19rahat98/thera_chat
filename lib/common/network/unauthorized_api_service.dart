@@ -16,6 +16,12 @@ class UnauthorizedApiService {
   }
 
   /// авторизация
+  Future<Response> signInWithPhone(Map<String, dynamic> data) async {
+    final client = await _httpClient;
+    return client.post<dynamic>('/auth/phone', data: data);
+  }
+
+  /// авторизация
   Future<Response> signUp(Map<String, dynamic> data) async {
     final client = await _httpClient;
     return client.post<dynamic>('/register', data: data);

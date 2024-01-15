@@ -12,6 +12,7 @@ import 'package:theta_chat/feature/auth/common/domain/use_cases/authentication_u
 import 'package:theta_chat/feature/auth/common/domain/use_cases/get_user_data_use_case.dart';
 import 'package:theta_chat/feature/auth/common/domain/use_cases/updata_user_data_use_case.dart';
 import 'package:theta_chat/feature/auth/login/domain/use_cases/sign_in_with_email_use_case.dart';
+import 'package:theta_chat/feature/auth/login/domain/use_cases/sign_in_with_number_use_case.dart';
 import 'package:theta_chat/feature/auth/sign_up/domain/use_cases/sign_up_with_email_use_case.dart';
 import 'package:theta_chat/feature/chat/guest/data/repository/guest_chat_repository.dart';
 import 'package:theta_chat/feature/chat/guest/domain/use_cases/get_guest_chat_history_use_case.dart';
@@ -92,5 +93,7 @@ void _useCaseModule() {
     ..registerFactory(StartNewTheraChatUseCase.new)
     ..registerFactory(SendMessageAsGuestChatUseCase.new)
     ..registerFactory(GlobalUpdateUserDataUseCase.new)
+    ..registerFactory(GlobalSignUpWithPhoneUseCase.new)
+    ..registerFactory(GlobalSignInWithPhoneUseCase.new)
     ..registerFactory(CheckUserAccessUseCase.new);
 }

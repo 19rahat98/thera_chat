@@ -6,6 +6,7 @@ import 'package:theta_chat/di/service_locator.dart';
 import 'package:theta_chat/feature/auth/sign_up/domain/entity/sign_up_param.dart';
 import 'package:theta_chat/feature/auth/sign_up/domain/entity/validation_password_entity.dart';
 import 'package:theta_chat/feature/auth/sign_up/domain/use_cases/sign_up_with_email_use_case.dart';
+import 'package:theta_chat/utils/extentions/string_ext.dart';
 import 'package:theta_chat/utils/mixins/request_worker_mixin.dart';
 
 part 'sign_up_state.dart';
@@ -19,9 +20,11 @@ class SingUpController extends StateNotifier<SignUpState> with CoreRequestWorked
   // Использование service locator для инъекции зависимости.
   SingUpController()
       : _signUpWithEmailUseCase = sl(),
+        _signUpWithPhoneUseCase = sl(),
         super(const SignUpState._());
 
   final GlobalSignUpWithEmailUseCase _signUpWithEmailUseCase;
+  final GlobalSignUpWithPhoneUseCase _signUpWithPhoneUseCase;
 
   String _email = CoreConstant.empty;
   String _name = CoreConstant.empty;
@@ -30,14 +33,23 @@ class SingUpController extends StateNotifier<SignUpState> with CoreRequestWorked
 
   /// Метод для входа в систему с использованием электронной почты и пароля.
   Future<void> signUpWithEmail() async {
-    final request = _signUpWithEmailUseCase.execute(
-      SignUpEmailParam(
-        name: _name,
-        email: _email,
-        surname: _surname,
-        password: _password,
-      ),
-    );
+    final request = _email.isPhoneNumber()
+        ? _signUpWithPhoneUseCase.execute(
+            SignUpEmailParam(
+              name: _name,
+              phone: _email,
+              surname: _surname,
+              password: _password,
+            ),
+          )
+        : _signUpWithEmailUseCase.execute(
+            SignUpEmailParam(
+              name: _name,
+              email: _email,
+              surname: _surname,
+              password: _password,
+            ),
+          );
 
     await launchWithAuthError<void, GlobalAuthException>(
       request: request,

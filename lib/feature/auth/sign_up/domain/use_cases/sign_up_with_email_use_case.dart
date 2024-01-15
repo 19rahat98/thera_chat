@@ -1,3 +1,4 @@
+import 'package:theta_chat/common/constants/app_core_constant.dart';
 import 'package:theta_chat/common/domain/abstract/core_use_case.dart';
 import 'package:theta_chat/di/service_locator.dart';
 import 'package:theta_chat/feature/auth/common/data/repository/authorized_repository.dart';
@@ -20,7 +21,7 @@ class GlobalSignUpWithEmailUseCase extends CoreFutureUseCase<SignUpEmailParam, v
     final result = GlobalAccessToken.fromDTO(response);
 
     ///сохранение данных
-    saveUserDataToLocalStorage(result, param.email);
+    saveUserDataToLocalStorage(result, param.email ?? CoreConstant.empty);
     return;
   }
 
@@ -33,3 +34,30 @@ class GlobalSignUpWithEmailUseCase extends CoreFutureUseCase<SignUpEmailParam, v
   }
 }
 
+/// use case для авторизации
+class GlobalSignUpWithPhoneUseCase extends CoreFutureUseCase<SignUpEmailParam, void> {
+  GlobalSignUpWithPhoneUseCase()
+      : _repository = sl(),
+        _personalSecureDataRepository = sl();
+
+  final AuthRepository _repository;
+  final GlobalPersonalSecureDataRepository _personalSecureDataRepository;
+
+  @override
+  Future<void> execute(SignUpEmailParam param) async {
+    final response = await _repository.singUpWithEmail(param);
+    final result = GlobalAccessToken.fromDTO(response);
+
+    ///сохранение данных
+    saveUserDataToLocalStorage(result, param.phone ?? CoreConstant.empty);
+    return;
+  }
+
+  ///сохранение данных в sheared prefs
+  void saveUserDataToLocalStorage(GlobalAccessToken response, String email) {
+    _personalSecureDataRepository
+      ..setEmailNumber(email)
+      ..setAccessToken(response.access)
+      ..setRefreshToken(response.refresh);
+  }
+}

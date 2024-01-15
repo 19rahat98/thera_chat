@@ -4,6 +4,8 @@ import 'package:theta_chat/common/constants/app_core_constant.dart';
 import 'package:theta_chat/common/exception/auth_error_entity.dart';
 import 'package:theta_chat/di/service_locator.dart';
 import 'package:theta_chat/feature/auth/login/domain/use_cases/sign_in_with_email_use_case.dart';
+import 'package:theta_chat/feature/auth/login/domain/use_cases/sign_in_with_number_use_case.dart';
+import 'package:theta_chat/utils/extentions/string_ext.dart';
 import 'package:theta_chat/utils/mixins/request_worker_mixin.dart';
 
 part 'sign_in_state.dart';
@@ -17,17 +19,21 @@ class SingInController extends StateNotifier<SignInState> with CoreRequestWorked
   // Использование service locator для инъекции зависимости.
   SingInController()
       : _signInUseCase = sl(),
+        _signInWithPhone = sl(),
         super(SignInCommonState());
 
   final GlobalSignInWithEmailUseCase _signInUseCase;
+  final GlobalSignInWithPhoneUseCase _signInWithPhone;
 
   String _email = CoreConstant.empty;
   String _password = CoreConstant.empty;
 
   /// Метод для входа в систему с использованием электронной почты и пароля.
-  Future<void> signInWithEmail(String email, String password) async {
+  Future<void> signInWithEmail(String login, String password) async {
     final state = _getCommonState();
-    final request = _signInUseCase.execute(SignInEmailParam(email, password));
+    final request = login.isPhoneNumber()
+        ? _signInWithPhone.execute(SignInPhoneParam(login, password))
+        : _signInUseCase.execute(SignInEmailParam(login, password));
 
     await launchWithAuthError<void, GlobalAuthException>(
       request: request,

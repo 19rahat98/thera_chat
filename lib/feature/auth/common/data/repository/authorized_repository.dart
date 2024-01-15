@@ -8,6 +8,7 @@ import 'package:theta_chat/feature/auth/common/data/dto/user_detail_dto.dart';
 import 'package:theta_chat/feature/auth/common/data/local/global_personal_secure_data_source.dart';
 import 'package:theta_chat/feature/auth/common/domain/entity/global_auth_reponse_entity.dart';
 import 'package:theta_chat/feature/auth/login/domain/use_cases/sign_in_with_email_use_case.dart';
+import 'package:theta_chat/feature/auth/login/domain/use_cases/sign_in_with_number_use_case.dart';
 import 'package:theta_chat/feature/auth/sign_up/domain/entity/sign_up_param.dart';
 import 'package:theta_chat/utils/http_call_utils.dart';
 
@@ -47,6 +48,17 @@ class AuthRepository {
   Future<GlobalAccessDTO> singInWithEmail(SignInEmailParam param) async {
     return safeApiCallWithError<GlobalAccessDTO, GlobalAuthException>(
       _apiService.signInWithEmail(param.toJson()),
+      GlobalAccessDTO.fromJson,
+      (json, p1, ex) {
+        return GlobalAuthException.fromJson(json);
+      },
+    );
+  }
+
+  /// Логинется с помощью номера телефона
+  Future<GlobalAccessDTO> singInWithPhone(SignInPhoneParam param) async {
+    return safeApiCallWithError<GlobalAccessDTO, GlobalAuthException>(
+      _apiService.signInWithPhone(param.toJson()),
       GlobalAccessDTO.fromJson,
       (json, p1, ex) {
         return GlobalAuthException.fromJson(json);
