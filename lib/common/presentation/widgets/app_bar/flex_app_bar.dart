@@ -8,11 +8,13 @@ class FlexAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.height,
     this.actions,
+    this.backgroundColor,
   });
 
   final double? height;
   final String title;
   final List<Widget>? actions;
+  final Color? backgroundColor;
 
   @override
   Size get preferredSize => Size.fromHeight(height ?? 60);
@@ -24,7 +26,7 @@ class FlexAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       actions: actions,
       surfaceTintColor: Colors.transparent,
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor ?? Colors.white,
       leading: AppIconButton(
         onPress: () => Navigator.pop(context),
         AppIcons.icArrowLeft,

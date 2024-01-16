@@ -46,7 +46,7 @@ class LoginScreen extends ConsumerWidget {
                       children: [
                         Positioned.fill(
                           child: Image.asset(
-                            AppImages.icMeditationBackground1,
+                            AppImages.icLoginBackground,
                             fit: BoxFit.fitWidth,
                           ),
                         ),
@@ -74,7 +74,6 @@ class LoginScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: AppLabelTextFieldWidget(
-                      autofocus: true,
                       color: Colors.white,
                       onValueChanged: signInController.setEmail,
                       label: 'Phone number and email',

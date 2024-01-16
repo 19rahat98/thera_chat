@@ -4,6 +4,7 @@ import 'package:theta_chat/common/presentation/widgets/buttons/app_text_button.d
 import 'package:theta_chat/common/presentation/widgets/buttons/app_tile_button.dart';
 import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/auth/common/domain/entity/user_detail_entity.dart';
+import 'package:theta_chat/feature/auth/login/presentation/ui/login_screen.dart';
 import 'package:theta_chat/feature/auth/update_user_data/presentation/ui/update_user_data_screen.dart';
 import 'package:theta_chat/feature/confidentiality/presentation/ui/confidentiality_screen.dart';
 import 'package:theta_chat/feature/message_center/presentation/ui/message_center_screen.dart';
@@ -67,14 +68,22 @@ class SettingUserBody extends StatelessWidget {
           icon: AppIcons.icInformationFilled,
           title: 'Confidentiality',
         ),
-        AppTileButton(
-          onTap: () {},
+        const AppTileToggle(
           icon: AppIcons.icBellFilled,
           title: 'Notifications',
         ),
         const HBox(20),
         AppTextButton(
-          onTap: logOut,
+          onTap: () {
+            logOut.call();
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const LoginScreen(),
+              ),
+              ModalRoute.withName('/'),
+            );
+          },
           padding: const EdgeInsets.symmetric(horizontal: 12),
           text: 'Выйти из аккаунта',
           style: AppTextStyle.button3,

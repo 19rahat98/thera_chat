@@ -10,7 +10,10 @@ class ConfidentialityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey20,
-      appBar: const FlexAppBar('Confidentiality'),
+      appBar: const FlexAppBar(
+        'Confidentiality',
+        backgroundColor: AppColors.grey20,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
         child: Column(

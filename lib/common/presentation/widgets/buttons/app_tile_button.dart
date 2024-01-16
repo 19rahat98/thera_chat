@@ -39,10 +39,86 @@ class AppTileButton extends StatelessWidget {
         color: enable ? AppColors.grey900 : AppColors.secondary,
       ),
       trailing: AppIconButton(
-        onPress: () => Navigator.pop(context),
         background: Colors.transparent,
         AppIcons.icArrowRight,
         iconSize: 24,
+        color: enable ? AppColors.grey900 : AppColors.secondary,
+      ),
+    );
+  }
+}
+
+class AppTileToggle extends StatefulWidget {
+  const AppTileToggle({
+    Key? key,
+    this.onChanged,
+    this.enable = true,
+    required this.icon,
+    required this.title,
+  }) : super(key: key);
+
+  final bool enable;
+  final String title;
+  final String icon;
+  final Function(bool)? onChanged;
+
+  @override
+  State<AppTileToggle> createState() => _AppTileToggleState();
+}
+
+class _AppTileToggleState extends State<AppTileToggle> {
+  bool _isEnable = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        setState(() {
+          _isEnable = !_isEnable;
+        });
+      },
+      dense: true,
+      contentPadding: const EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: 16,
+      ),
+      title: Text(
+        widget.title,
+        style: AppTextStyle.body1.copyWith(
+          color: widget.enable ? AppColors.grey900 : AppColors.secondary,
+        ),
+      ),
+      leading: SvgPicture.asset(
+        widget.icon,
+        width: 24,
+        height: 24,
+        color: widget.enable ? AppColors.grey900 : AppColors.secondary,
+      ),
+      trailing: SizedBox(
+        width: 44,
+        height: 24,
+        child: Switch(
+          onChanged: (bool value) {
+            setState(() {
+              _isEnable = value;
+            });
+          },
+          value: _isEnable,
+          activeColor: Colors.white,
+          activeTrackColor: AppColors.grey300,
+          inactiveTrackColor: AppColors.grey300,
+          inactiveThumbColor: Colors.white,
+          materialTapTargetSize: MaterialTapTargetSize.padded,
+          trackOutlineWidth: MaterialStateProperty.resolveWith<double?>(
+            (Set<MaterialState> states) => -1,
+          ),
+          thumbIcon: MaterialStateProperty.resolveWith<Icon?>(
+            (Set<MaterialState> states) => const Icon(
+              Icons.close,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
     );
   }

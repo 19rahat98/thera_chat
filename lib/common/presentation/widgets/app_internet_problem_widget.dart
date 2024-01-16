@@ -14,7 +14,10 @@ class AppInternetProblemWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(AppIcons.icAlertCircleFilled),
+          SvgPicture.asset(
+            AppIcons.icAlertCircleFilled,
+            color: AppColors.error500,
+          ),
           Text(
             'Проблема соединениям',
             style: AppTextStyle.h4,
@@ -28,9 +31,9 @@ class AppInternetProblemWidget extends StatelessWidget {
               style: AppTextStyle.h5,
             ),
           ),
-          const HBox(20),
           AppFilledColorButton(
             borderRadiusRadii: 30,
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             color: AppColors.grey100,
             child: Row(

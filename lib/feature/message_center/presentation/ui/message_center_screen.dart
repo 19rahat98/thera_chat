@@ -11,7 +11,10 @@ class MessageCenterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey20,
-      appBar: const FlexAppBar('Message Center'),
+      appBar: const FlexAppBar(
+        'Message Center',
+        backgroundColor: AppColors.grey20,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         child: Column(

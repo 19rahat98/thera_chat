@@ -7,6 +7,7 @@ import 'package:theta_chat/common/presentation/widgets/app_income_message.dart';
 import 'package:theta_chat/common/presentation/widgets/app_outcome_message.dart';
 import 'package:theta_chat/common/presentation/widgets/app_waiting_animated_dots.dart';
 import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
+import 'package:theta_chat/common/presentation/widgets/screen/internet_connection_status_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/snack_bars.dart';
 import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/onboarding/presentation/controller/onboarding_riverpod.dart';
@@ -42,45 +43,47 @@ class TheraChatOnboardingScreenState extends ConsumerState<TheraChatOnboardingSc
           leadingSize: 30,
           leadingIcon: AppIcons.icUserOutline,
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: state.chat.length,
-                controller: _scrollController,
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
-                separatorBuilder: (context, _) => const HBox(20),
-                itemBuilder: (context, index) {
-                  final chat = state.chat[index];
-                  if (state.isLoading && state.chat.length == index + 1) {
-                    return const AppWaitingAnimatedDots();
-                  } else if (chat.isAdditionalMessage) {
-                    return Center(
-                      child: Text(
-                        chat.message,
-                        style: AppTextStyle.caption1.copyWith(color: AppColors.grey600),
-                      ),
-                    );
-                  } else if (chat.isAssistantMessage) {
-                    return AppAssistantMessage(chat.message);
+        body: InternetConnectionStatusWidget(
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: state.chat.length,
+                  controller: _scrollController,
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
+                  separatorBuilder: (context, _) => const HBox(20),
+                  itemBuilder: (context, index) {
+                    final chat = state.chat[index];
+                    if (state.isLoading && state.chat.length == index + 1) {
+                      return const AppWaitingAnimatedDots();
+                    } else if (chat.isAdditionalMessage) {
+                      return Center(
+                        child: Text(
+                          chat.message,
+                          style: AppTextStyle.caption1.copyWith(color: AppColors.grey600),
+                        ),
+                      );
+                    } else if (chat.isAssistantMessage) {
+                      return AppAssistantMessage(chat.message);
+                    }
+                    return AppOutcomeMessage(chat.message);
+                  },
+                ),
+              ),
+              OnboardingFooter(
+                state,
+                controller: _controller,
+                activateChat: onboardingProviderController.stayLikeGuest,
+                onSendMessage: () {
+                  if (!state.isLoading && _controller.text.isNotEmpty) {
+                    onboardingProviderController.sendNewMessage(_controller.text);
+                    _controller.clear();
                   }
-                  return AppOutcomeMessage(chat.message);
                 },
               ),
-            ),
-            OnboardingFooter(
-              state,
-              controller: _controller,
-              activateChat: onboardingProviderController.stayLikeGuest,
-              onSendMessage: () {
-                if (!state.isLoading && _controller.text.isNotEmpty) {
-                  onboardingProviderController.sendNewMessage(_controller.text);
-                  _controller.clear();
-                }
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

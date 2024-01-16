@@ -184,6 +184,7 @@ class _AppLabelTextFieldWidgetState extends State<AppLabelTextFieldWidget> {
             controller: widget.controller,
             onSubmitted: widget.onSubmitted,
             inputFormatters: widget.textInputFormatters,
+            obscuringCharacter: '*',
             decoration: InputDecoration(
               isDense: true,
               label: widget.labelWidget,
@@ -199,11 +200,12 @@ class _AppLabelTextFieldWidgetState extends State<AppLabelTextFieldWidget> {
               enabledBorder: InputBorder.none,
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
-              labelStyle: widget.labelStyle ?? AppTextStyle.caption1.copyWith(
-                color: widget.errorMessage?.isNotEmpty == true
-                    ? AppColors.error500
-                    : AppColors.secondary,
-              ),
+              labelStyle: widget.labelStyle ??
+                  AppTextStyle.caption1.copyWith(
+                    color: widget.errorMessage?.isNotEmpty == true
+                        ? AppColors.error500
+                        : AppColors.secondary,
+                  ),
               contentPadding: widget.contentPadding ?? const EdgeInsets.only(top: 4),
             ),
             keyboardType: widget.inputType ?? TextInputType.text,

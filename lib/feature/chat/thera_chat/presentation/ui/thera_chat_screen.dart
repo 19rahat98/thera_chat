@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:theta_chat/common/presentation/widgets/app_bar/common_app_bar.dart';
+import 'package:theta_chat/common/presentation/widgets/screen/internet_connection_status_widget.dart';
 import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/chat/thera_chat/presentation/ui/widgets/chat_body_build.dart';
 
@@ -11,7 +12,9 @@ class TheraChatScreen extends StatelessWidget {
     return const Scaffold(
       backgroundColor: AppColors.grey20,
       appBar: CommonAppBar(),
-      body: ChatBodyBuild(),
+      body: InternetConnectionStatusWidget(
+        child: ChatBodyBuild(),
+      ),
     );
   }
 }

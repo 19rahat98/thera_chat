@@ -12,7 +12,10 @@ class SettingsHeader extends StatelessWidget {
       children: [
         SizedBox(
           height: 185,
-          child: Image.asset(AppImages.icBackgroundSettings),
+          child: Image.asset(
+            AppImages.icBackgroundSettings,
+            fit: BoxFit.fitWidth,
+          ),
         ),
         Positioned(
           top: 60,

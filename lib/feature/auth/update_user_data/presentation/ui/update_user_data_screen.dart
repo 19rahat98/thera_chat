@@ -7,9 +7,11 @@ import 'package:theta_chat/common/presentation/widgets/app_terms_and_policy_widg
 import 'package:theta_chat/common/presentation/widgets/buttons/app_filled_color_button.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_text_button.dart';
 import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
+import 'package:theta_chat/common/presentation/widgets/screen/app_adaptive_layout_screen.dart';
 import 'package:theta_chat/common/presentation/widgets/snack_bars.dart';
 import 'package:theta_chat/common/presentation/widgets/textfields/app_label_textfield.dart';
 import 'package:theta_chat/config/theme.dart';
+import 'package:theta_chat/feature/auth/change_password/presentation/ui/change_password_screen.dart';
 import 'package:theta_chat/feature/auth/common/domain/entity/user_detail_entity.dart';
 import 'package:theta_chat/feature/auth/common/presentation/controller/authentication_controller.dart';
 import 'package:theta_chat/feature/auth/forget_password/presentation/ui/forget_password_screen.dart';
@@ -46,15 +48,41 @@ class UpdateUserDataScreenState extends ConsumerState<UpdateUserDataScreen> {
     return KeyboardDismisser(
       child: Scaffold(
         backgroundColor: AppColors.grey20,
-        appBar: const FlexAppBar('Personal Information'),
+        appBar: const FlexAppBar(
+          'Personal Information',
+          backgroundColor: AppColors.grey20,
+        ),
         body: AppLoadingContainer(
           isLoading: state.isLoading,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
+          child: AppAdaptiveLayoutScreen(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            footer: Column(
+              children: [
+                const AppTermsAndPolicyWidget(),
+                AppFilledColorButton(
+                  onTap: () => updateController.update(
+                    _emailController.text,
+                    _nameController.text,
+                    _surnameController.text,
+                  ),
+                  height: 48,
+                  borderRadiusRadii: 30,
+                  color: AppColors.inDevPrimary500,
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  child: Text(
+                    'Сохранить',
+                    style: AppTextStyle.button1.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const HBox(16),
+              ],
+            ),
             child: Column(
               children: [
+                const HBox(16),
                 AppLabelTextFieldWidget(
-                  autofocus: true,
                   label: 'First name',
                   controller: _nameController,
                   textInputAction: TextInputAction.next,
@@ -83,7 +111,12 @@ class UpdateUserDataScreenState extends ConsumerState<UpdateUserDataScreen> {
                 ),
                 const HBox(20),
                 AppTextButton(
-                  onTap: () {},
+                  onTap: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ChangePasswordScreen(),
+                    ),
+                  ),
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   text: 'Сhange password',
                   style: AppTextStyle.button3,
@@ -98,27 +131,6 @@ class UpdateUserDataScreenState extends ConsumerState<UpdateUserDataScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   text: 'Forget password',
                   style: AppTextStyle.button3,
-                ),
-                const Expanded(
-                  child: SizedBox.shrink(),
-                ),
-                const AppTermsAndPolicyWidget(),
-                AppFilledColorButton(
-                  onTap: () => updateController.update(
-                    _emailController.text,
-                    _nameController.text,
-                    _surnameController.text,
-                  ),
-                  height: 48,
-                  borderRadiusRadii: 30,
-                  color: AppColors.inDevPrimary500,
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  child: Text(
-                    'Сохранить',
-                    style: AppTextStyle.button1.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
                 ),
               ],
             ),
