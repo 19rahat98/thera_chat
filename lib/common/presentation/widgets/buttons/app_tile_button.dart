@@ -105,12 +105,14 @@ class _AppTileToggleState extends State<AppTileToggle> {
           },
           value: _isEnable,
           activeColor: Colors.white,
+          inactiveThumbColor: Colors.white,
           activeTrackColor: AppColors.grey300,
           inactiveTrackColor: AppColors.grey300,
-          inactiveThumbColor: Colors.white,
-          materialTapTargetSize: MaterialTapTargetSize.padded,
+          trackOutlineColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) => AppColors.grey300,
+          ),
           trackOutlineWidth: MaterialStateProperty.resolveWith<double?>(
-            (Set<MaterialState> states) => -1,
+            (Set<MaterialState> states) => 0,
           ),
           thumbIcon: MaterialStateProperty.resolveWith<Icon?>(
             (Set<MaterialState> states) => const Icon(

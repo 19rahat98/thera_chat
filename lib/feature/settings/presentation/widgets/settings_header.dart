@@ -14,7 +14,7 @@ class SettingsHeader extends StatelessWidget {
           height: 185,
           child: Image.asset(
             AppImages.icBackgroundSettings,
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.fill,
           ),
         ),
         Positioned(

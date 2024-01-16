@@ -13,16 +13,18 @@ class SettingsScreen extends ConsumerWidget {
     final authController = ref.read(authProvider.notifier);
     final state = ref.watch(authProvider);
     return Scaffold(
-      body: Column(
-        children: [
-          const SettingsHeader(),
-          if (state.status == AuthenticationStatus.authenticated)
-            SettingUserBody(
-              state.user!,
-              logOut: authController.onSignOut,
-            ),
-          if (state.status == AuthenticationStatus.unauthenticated) const SettingGuestBody(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SettingsHeader(),
+            if (state.status == AuthenticationStatus.authenticated)
+              SettingUserBody(
+                state.user!,
+                logOut: authController.onSignOut,
+              ),
+            if (state.status == AuthenticationStatus.unauthenticated) const SettingGuestBody(),
+          ],
+        ),
       ),
     );
   }
