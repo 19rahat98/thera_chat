@@ -46,5 +46,5 @@ class UserMessageParam {
   });
 
   /// Преобразует параметры сообщения в JSON-формат для отправки.
-  Map<String, dynamic> toJson() => {'message': message};
+  Map<String, dynamic> toJson() => {'text': message};
 }

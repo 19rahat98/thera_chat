@@ -41,8 +41,10 @@ class LoginScreen extends ConsumerWidget {
               child: Column(
                 children: [
                   SizedBox(
-                    height: 400,
+                    height: MediaQuery.of(context).size.height * .44,
                     child: Stack(
+                      fit: StackFit.expand,
+                      clipBehavior: Clip.hardEdge,
                       children: [
                         Positioned.fill(
                           child: Image.asset(
@@ -64,7 +66,7 @@ class LoginScreen extends ConsumerWidget {
                           bottom: 0,
                           child: CustomPaint(
                             size: Size(
-                                MediaQuery.of(context).size.width, 0), // Size of the semi-circle
+                                MediaQuery.of(context).size.width, 56), // Size of the semi-circle
                             painter: ConvexSemiCirclePainter(AppColors.grey20),
                           ),
                         ),
@@ -116,7 +118,7 @@ class LoginScreen extends ConsumerWidget {
                     color: state.isButtonIsEnable ? AppColors.inDevPrimary : AppColors.grey100,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Text(
-                      'Log In',
+                      'Log in',
                       style: AppTextStyle.button1.copyWith(
                         color: state.isButtonIsEnable ? Colors.white : AppColors.grey300,
                       ),

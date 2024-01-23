@@ -12,7 +12,10 @@ class PasswordValidationErrors extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (validationPassword?.strength == PasswordStrength.strong) {
+    if (validationPassword?.strength == null ||
+        validationPassword?.strength == PasswordStrength.less) {
+      return const SizedBox.shrink();
+    } else if (validationPassword?.strength == PasswordStrength.strong) {
       return Row(
         children: [
           Transform.rotate(

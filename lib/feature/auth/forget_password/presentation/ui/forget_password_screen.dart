@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:theta_chat/common/presentation/widgets/app_bar/dynamic_app_bar.dart';
 import 'package:theta_chat/common/presentation/widgets/app_hbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/buttons/app_filled_color_button.dart';
@@ -20,10 +21,22 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        toolbarHeight: 200, // Set this height
+        flexibleSpace: const DynamicAppBar(
+          'Forget password',
+          backgroundImage: AppImages.icBackgroundForgetPassword,
+        ),
+        automaticallyImplyLeading: false,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.dark, // For iOS (dark icons)
+          statusBarIconBrightness: Brightness.light, // For Android (dark icons)
+        ),
+      ),
       body: KeyboardDismisser(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const DynamicAppBar('Forget password'),
             const HBox(36),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),

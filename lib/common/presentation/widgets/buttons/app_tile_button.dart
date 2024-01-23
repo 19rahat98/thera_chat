@@ -23,7 +23,6 @@ class AppTileButton extends StatelessWidget {
       onTap: onTap,
       dense: true,
       contentPadding: const EdgeInsets.symmetric(
-        vertical: 8,
         horizontal: 16,
       ),
       title: Text(
@@ -97,27 +96,30 @@ class _AppTileToggleState extends State<AppTileToggle> {
       trailing: SizedBox(
         width: 44,
         height: 24,
-        child: Switch(
-          onChanged: (bool value) {
-            setState(() {
-              _isEnable = value;
-            });
-          },
-          value: _isEnable,
-          activeColor: Colors.white,
-          inactiveThumbColor: Colors.white,
-          activeTrackColor: AppColors.grey300,
-          inactiveTrackColor: AppColors.grey300,
-          trackOutlineColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) => AppColors.grey300,
-          ),
-          trackOutlineWidth: MaterialStateProperty.resolveWith<double?>(
-            (Set<MaterialState> states) => 0,
-          ),
-          thumbIcon: MaterialStateProperty.resolveWith<Icon?>(
-            (Set<MaterialState> states) => const Icon(
-              Icons.close,
-              color: Colors.white,
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Switch(
+            onChanged: (bool value) {
+              setState(() {
+                _isEnable = value;
+              });
+            },
+            value: _isEnable,
+            activeColor: Colors.white,
+            inactiveThumbColor: Colors.white,
+            activeTrackColor: AppColors.grey300,
+            inactiveTrackColor: AppColors.grey300,
+            trackOutlineColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) => AppColors.grey300,
+            ),
+            trackOutlineWidth: MaterialStateProperty.resolveWith<double?>(
+              (Set<MaterialState> states) => 0,
+            ),
+            thumbIcon: MaterialStateProperty.resolveWith<Icon?>(
+              (Set<MaterialState> states) => const Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
             ),
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:theta_chat/common/constants/app_core_constant.dart';
 import 'package:theta_chat/common/presentation/widgets/app_bar/dynamic_app_bar.dart';
@@ -23,6 +24,15 @@ class SignUpScreen extends ConsumerWidget {
     final signUpController = ref.read(signUpProvider.notifier);
 
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 200, // Set this height
+        flexibleSpace: const DynamicAppBar('Sign up'),
+        automaticallyImplyLeading: false,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.dark, // For iOS (dark icons)
+          statusBarIconBrightness: Brightness.light, // For Android (dark icons)
+        ),
+      ),
       backgroundColor: Colors.white,
       body: AppLoadingContainer(
         isLoading: state.isLoading,
@@ -38,12 +48,12 @@ class SignUpScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const DynamicAppBar('Sign up'),
                     const HBox(36),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AppLabelTextFieldWidget(
                               autofocus: true,
@@ -70,6 +80,7 @@ class SignUpScreen extends ConsumerWidget {
                               textInputAction: TextInputAction.next,
                               label: 'Phone number and email',
                               onValueChanged: signUpController.setEmail,
+                              errorMessage: state.errorEmail,
                             ),
                             const HBox(8),
                             Text(
@@ -84,7 +95,7 @@ class SignUpScreen extends ConsumerWidget {
                               isPassword: true,
                               onSubmitted: (v) {
                                 if (state.isButtonEnable) {
-                                  signUpController.signUpWithEmail();
+                                  signUpController.validateEmailField();
                                 }
                               },
                               onValueChanged: signUpController.setPassword,
@@ -100,7 +111,7 @@ class SignUpScreen extends ConsumerWidget {
                             AppFilledColorButton(
                               onTap: () {
                                 if (state.isButtonEnable) {
-                                  signUpController.signUpWithEmail();
+                                  signUpController.validateEmailField();
                                 }
                               },
                               borderRadiusRadii: 30,

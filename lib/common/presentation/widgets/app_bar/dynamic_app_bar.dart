@@ -15,36 +15,33 @@ class DynamicAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          SvgPicture.asset(
-            backgroundImage,
-            fit: BoxFit.fill,
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        SvgPicture.asset(
+          backgroundImage,
+          fit: BoxFit.fitHeight,
+        ),
+        Positioned(
+          top: 48,
+          left: 12,
+          child: AppIconButton(
+            onPress: () => Navigator.pop(context),
+            background: Colors.transparent,
+            AppIcons.icArrowLeft,
+            iconSize: 32,
+            color: Colors.white,
           ),
-          Positioned(
-            top: 48,
-            left: 12,
-            child: AppIconButton(
-              onPress: () => Navigator.pop(context),
-              background: Colors.transparent,
-              AppIcons.icArrowLeft,
-              iconSize: 32,
-              color: Colors.white,
-            ),
+        ),
+        Positioned(
+          right: 16,
+          bottom: 20,
+          child: Text(
+            title,
+            style: AppTextStyle.h1,
           ),
-          Positioned(
-            right: 16,
-            bottom: 20,
-            child: Text(
-              title,
-              style: AppTextStyle.h1,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -12,10 +12,10 @@ class ConvexSemiCirclePainter extends CustomPainter {
       ..color = color // Change the color of the semi-circle here
       ..style = PaintingStyle.fill;
 
-    var center = Offset(size.width / 2, 0);
+    var center = Offset(size.width / 2, size.height * 7);
     var path = Path();
     path.addArc(
-      Rect.fromCenter(center: center, width: rect.width + 30, height: rect.height + 100),
+      Rect.fromCircle(center: center,radius: rect.width),
       degreesToRadians(180),
       degreesToRadians(180),
     );

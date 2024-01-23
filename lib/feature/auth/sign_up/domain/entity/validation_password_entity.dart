@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 enum PasswordStrength {
+  less,
   weak,
   strong,
 }
@@ -11,7 +12,7 @@ class ValidationPasswordEntity extends Equatable {
     this.isIncludeName = false,
     this.isEnableLength = false,
     this.isContainSpace = false,
-    this.strength = PasswordStrength.weak,
+    this.strength = PasswordStrength.less,
   });
 
   final bool isHaveSymbol;

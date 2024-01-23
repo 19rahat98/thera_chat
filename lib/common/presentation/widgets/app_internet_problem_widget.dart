@@ -10,46 +10,44 @@ class AppInternetProblemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            AppIcons.icAlertCircleFilled,
-            color: AppColors.error500,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(
+          AppIcons.icAlertCircleFilled,
+          color: AppColors.error500,
+        ),
+        Text(
+          'Проблема соединениям',
+          style: AppTextStyle.h4,
+        ),
+        const HBox(12),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Text(
+            'Без интернета - время для внутреннего роста и творчества.',
+            textAlign: TextAlign.center,
+            style: AppTextStyle.h5,
           ),
-          Text(
-            'Проблема соединениям',
-            style: AppTextStyle.h4,
+        ),
+        AppFilledColorButton(
+          borderRadiusRadii: 30,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          color: AppColors.grey100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(AppIcons.icWorldOutline),
+              const WBox(8),
+              Text(
+                'Повторить',
+                style: AppTextStyle.button1,
+              ),
+            ],
           ),
-          const HBox(12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Text(
-              'Без интернета - время для внутреннего роста и творчества.',
-              textAlign: TextAlign.center,
-              style: AppTextStyle.h5,
-            ),
-          ),
-          AppFilledColorButton(
-            borderRadiusRadii: 30,
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            color: AppColors.grey100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(AppIcons.icWorldOutline),
-                const WBox(8),
-                Text(
-                  'Повторить',
-                  style: AppTextStyle.button1,
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }

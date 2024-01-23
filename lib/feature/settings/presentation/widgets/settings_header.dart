@@ -10,11 +10,15 @@ class SettingsHeader extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        SizedBox(
+        Container(
           height: 185,
-          child: Image.asset(
-            AppImages.icBackgroundSettings,
-            fit: BoxFit.fill,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                AppImages.icBackgroundSettings,
+              ),
+              fit: BoxFit.fill,
+            ),
           ),
         ),
         Positioned(

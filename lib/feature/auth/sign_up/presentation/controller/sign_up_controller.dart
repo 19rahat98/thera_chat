@@ -8,6 +8,7 @@ import 'package:theta_chat/feature/auth/sign_up/domain/entity/validation_passwor
 import 'package:theta_chat/feature/auth/sign_up/domain/use_cases/sign_up_with_email_use_case.dart';
 import 'package:theta_chat/utils/extentions/string_ext.dart';
 import 'package:theta_chat/utils/mixins/request_worker_mixin.dart';
+import 'package:theta_chat/utils/validation_utils.dart';
 
 part 'sign_up_state.dart';
 
@@ -85,10 +86,11 @@ class SingUpController extends StateNotifier<SignUpState> with CoreRequestWorked
 
   void setPassword(String password) {
     _password = password;
-    _validateFields();
+    _validatePasswordFields();
   }
 
-  void _validateFields() {
+  /// Валидирует поля "пароль"
+  void _validatePasswordFields() {
     bool isHaveSymbol = false;
     bool isIncludeName = false;
     bool isEnableLength = _password.length >= 8;
@@ -99,9 +101,12 @@ class SingUpController extends StateNotifier<SignUpState> with CoreRequestWorked
         _password.contains(RegExp(r'\d')) || _password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
 
     // Проверка на включение имени или email в пароль
-    isIncludeName = _password.toLowerCase().contains(_email.toLowerCase()) ||
-        _password.toLowerCase().contains(_name.toLowerCase()) ||
+    isIncludeName = _password.toLowerCase().contains(_name.toLowerCase()) ||
         _password.toLowerCase().contains(_surname.toLowerCase());
+
+    if (!isIncludeName && _email.isNotEmpty) {
+      isIncludeName = _password.toLowerCase().contains(_email.toLowerCase());
+    }
 
     // Определение силы пароля
     PasswordStrength strength = PasswordStrength.weak;
@@ -121,6 +126,18 @@ class SingUpController extends StateNotifier<SignUpState> with CoreRequestWorked
         isContainSpace: isContainSpace,
       ),
     );
+  }
+
+  void validateEmailField() {
+    bool isPhoneNumber = _email.isPhoneNumber();
+
+    if (isPhoneNumber || isEmailValid(_email)) {
+      signUpWithEmail();
+      return;
+    }
+
+    state = state.copyWith(errorEmail: '* Your information is incorrect');
+    print(state);
   }
 
   @override
