@@ -64,7 +64,7 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
     _chatMessages.add(
       ChatMessage.assistantMessage(
         text:
-            "Greetings, smart and attentive partner! I'm glad to see you here. I will be glad to help with any questions related to psychology. What is your name?",
+            'To begin with, you can choose to log in as a regular user so that I can remember your preferences and continue our conversations, or remain an anonymous guest and get help without saving information. Which option is closer to you now?',
       ),
     );
     state = OnboardingState.finish(_chatMessages);
@@ -88,8 +88,8 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
         _chatMessages.removeLast();
         _chatMessages.add(
           ChatMessage.assistantMessage(
-            text: "Let's learn more about the available modules. I have some interesting tools that might be useful. Do you want to explore?"
-          ),
+              text:
+                  "Let's learn more about the available modules. I have some interesting tools that might be useful. Do you want to explore?"),
         );
         state = OnboardingState.guestMessage(_chatMessages);
       },
@@ -109,7 +109,8 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
     );
     _chatMessages.add(
       ChatMessage.assistantMessage(
-        text: "I understand that anonymity is very important for some people, especially when discussing personal or sensitive issues. This is normal and absolutely fine.\nThe main thing is that you feel comfortable and free to express your thoughts and feelings. I am ready to help and support you in any situation that bothers you.",
+        text:
+            "I understand that anonymity is very important for some people, especially when discussing personal or sensitive issues. This is normal and absolutely fine.\nThe main thing is that you feel comfortable and free to express your thoughts and feelings. I am ready to help and support you in any situation that bothers you.",
       ),
     );
     state = OnboardingState.sendMessage(_chatMessages);
@@ -130,7 +131,11 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
 
     await launchWithError<ChatMessage, HttpRequestException>(
       request: request,
-      loading: (isLoading) => state = state.copyWith(isLoading: isLoading, chat: _chatMessages),
+      loading: (isLoading) => state = state.copyWith(
+        isLoading: isLoading,
+        chat: _chatMessages,
+        status: OnboardingStatus.common,
+      ),
       resultData: (result) {
         _chatMessages.replaceRange(_chatMessages.length - 1, _chatMessages.length, [result]);
         state = OnboardingState.guestMessage(_chatMessages);

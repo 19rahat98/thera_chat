@@ -1,13 +1,12 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:theta_chat/common/constants/app_core_constant.dart';
 import 'package:theta_chat/common/presentation/widgets/app_hbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/app_income_message.dart';
 import 'package:theta_chat/common/presentation/widgets/app_loading_container.dart';
 import 'package:theta_chat/common/presentation/widgets/app_outcome_message.dart';
 import 'package:theta_chat/common/presentation/widgets/app_waiting_animated_dots.dart';
 import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
-import 'package:theta_chat/common/presentation/widgets/snack_bars.dart';
 import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/chat/guest/presentation/ui/widgets/guest_chat_text_field.dart';
 import 'package:theta_chat/feature/chat/thera_chat/presentation/controller/thera_chat_controller.dart';
@@ -81,62 +80,6 @@ class ChatBodyBuildState extends ConsumerState<ChatBodyBuild> {
         ),
       ],
     );
-    /*return KeyboardDismisser(
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView.separated(
-              shrinkWrap: true,
-              itemCount: chatting.length,
-              controller: _scrollController,
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
-              separatorBuilder: (context, _) => const HBox(20),
-              itemBuilder: (context, index) {
-                if (index == 6) {
-                  return const AppWaitingAnimatedDots();
-                } else if (index % 2 == 0 || index > 5) {
-                  return AppAssistantMessage(chatting.first);
-                }
-                return AppOutcomeMessage(
-                  chatting.last,
-                  isHaveError: index == 5,
-                );
-              },
-            ),
-          ),
-          Container(
-            color: AppColors.grey20,
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.grey300),
-              ),
-              child: TextField(
-                minLines: 1,
-                // Минимальное количество строк
-                maxLines: 3,
-                // Ограничивает количество строк максимум тремя
-                keyboardType: TextInputType.multiline,
-                // Включает поддержку многострочного ввода
-                style: AppTextStyle.body1,
-                decoration: const InputDecoration(
-                  hintText: 'Textfield',
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
-          const HBox(20),
-        ],
-      ),
-    );*/
   }
 
   /// Отслеживает все изменения состояния провайдера `theraChatProvider`.
@@ -153,13 +96,27 @@ class ChatBodyBuildState extends ConsumerState<ChatBodyBuild> {
       theraChatProvider,
       (previous, current) {
         if (current.status == TheraChatStatus.failure) {
-          showErrorSnackBar(context, current.errorMessage ?? CoreConstant.error);
+          showError(current.chat.last.message);
         } else if (previous?.chat != current.chat ||
             previous?.isWaitingAssistant != current.isWaitingAssistant) {
           jumpToBottomOfScroll();
         }
       },
     );
+  }
+
+  Future<void> showError(String lastMessage) async {
+    final value = await showOkCancelAlertDialog(
+      context: context,
+      title: 'Sending error',
+      message: 'Sorry, the message was not delivered. Try sending it again.',
+      okLabel: 'Retry',
+      cancelLabel: 'Cancel',
+      canPop: false,
+    );
+    if (value == OkCancelResult.ok) {
+      ref.read(theraChatProvider.notifier).sendNewMessage(lastMessage);
+    }
   }
 
   /// Перемещает скролл к самому нижнему сообщению в списке.

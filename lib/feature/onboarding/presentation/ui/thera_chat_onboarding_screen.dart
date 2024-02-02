@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:theta_chat/common/constants/app_core_constant.dart';
@@ -76,6 +77,7 @@ class TheraChatOnboardingScreenState extends ConsumerState<TheraChatOnboardingSc
                 controller: _controller,
                 activateChat: onboardingProviderController.stayLikeGuest,
                 onSendMessage: () {
+                  onboardingProviderController.sendNewMessage(_controller.text);
                   if (!state.isLoading && _controller.text.isNotEmpty) {
                     onboardingProviderController.sendNewMessage(_controller.text);
                     _controller.clear();
@@ -103,12 +105,27 @@ class TheraChatOnboardingScreenState extends ConsumerState<TheraChatOnboardingSc
       onboardingProvider,
       (previous, current) {
         if (current.status == OnboardingStatus.failure) {
-          showErrorSnackBar(context, current.errorMessage ?? CoreConstant.error);
+          FocusScope.of(context).unfocus();
+          showError(current.chat.last.message);
         } else if (previous?.chat != current.chat || previous?.isLoading != current.isLoading) {
           jumpToBottomOfScroll();
         }
       },
     );
+  }
+
+  Future<void> showError(String lastMessage) async {
+    final value = await showOkCancelAlertDialog(
+      context: context,
+      title: 'Sending error',
+      message: 'Sorry, the message was not delivered. Try sending it again.',
+      okLabel: 'Retry',
+      cancelLabel: 'Cancel',
+      canPop: false,
+    );
+    if (value == OkCancelResult.ok) {
+      ref.read(onboardingProvider.notifier).sendNewMessage(lastMessage);
+    }
   }
 
   /// Перемещает скролл к самому нижнему сообщению в списке.

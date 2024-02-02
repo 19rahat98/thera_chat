@@ -71,8 +71,8 @@ class TheraChatController extends StateNotifier<TheraChatState> with CoreRequest
 
     await launchWithError<ChatMessage, HttpRequestException>(
       request: request,
-      loading: (isLoading) =>
-          state = state.copyWith(isWaitingAssistant: isLoading, chat: _chatMessages),
+      loading: (isLoading) => state = state.copyWith(
+          isWaitingAssistant: isLoading, chat: _chatMessages, status: TheraChatStatus.common),
       resultData: (result) {
         _chatMessages.replaceRange(_chatMessages.length - 1, _chatMessages.length, [result]);
         state = TheraChatState._(chat: _chatMessages);

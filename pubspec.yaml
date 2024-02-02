@@ -18,6 +18,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   # ui
+  adaptive_dialog: ^2.0.0
   persistent_bottom_nav_bar: ^5.0.2
 
   # connection
