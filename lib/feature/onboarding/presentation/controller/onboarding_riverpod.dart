@@ -47,7 +47,7 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
     _chatMessages.add(
       ChatMessage.assistantMessage(
         text:
-            'Приветствую тебя, умный и внимательный соучастник! Я рад видеть тебя здесь. Буду рад помочь в любых вопросах, связанных с психологией. Как вас зовут?',
+            "Greetings, smart and attentive partner! I'm glad to see you here. I will be glad to help with any questions related to psychology. What is your name?",
       ),
     );
     state = OnboardingState.sendMessage(_chatMessages);
@@ -55,7 +55,7 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
       const Duration(milliseconds: 1500),
     );
     _chatMessages.add(
-      ChatMessage.userMessage('Привет, меня зовут Эмма.'),
+      ChatMessage.userMessage('Hello, Hello, My name is Emma.'),
     );
     state = OnboardingState.sendMessage(_chatMessages);
     await Future.delayed(
@@ -63,8 +63,9 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
     );
     _chatMessages.add(
       ChatMessage.assistantMessage(
-          text:
-              'Для начала можешь выбрать, зайти как постоянный пользователь, чтобы я мог запомнить твои предпочтения и продолжить наши беседы, или остаться анонимным гостем и получить помощь без сохранения информации. Какой вариант тебе ближе сейчас?'),
+        text:
+            "Greetings, smart and attentive partner! I'm glad to see you here. I will be glad to help with any questions related to psychology. What is your name?",
+      ),
     );
     state = OnboardingState.finish(_chatMessages);
   }
@@ -87,8 +88,7 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
         _chatMessages.removeLast();
         _chatMessages.add(
           ChatMessage.assistantMessage(
-            text:
-                'Давайте познакомимся с доступными модулями. У меня есть несколько интересных инструментов, которые могут быть полезными. Хочешь ознакомится?',
+            text: "Let's learn more about the available modules. I have some interesting tools that might be useful. Do you want to explore?"
           ),
         );
         state = OnboardingState.guestMessage(_chatMessages);
@@ -105,12 +105,11 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
       const Duration(milliseconds: 1500),
     );
     _chatMessages.add(
-      ChatMessage.additionalMessage('Вы выбрали остаться как гость'),
+      ChatMessage.additionalMessage('You have chosen to stay as a guest'),
     );
     _chatMessages.add(
       ChatMessage.assistantMessage(
-        text:
-            'Понимаю, что для некоторых людей анонимность очень важна, особенно при обсуждении личных или чувствительных вопросов. Это нормально и абсолютно в порядке. Главное, чтобы ты чувствовал себя комфортно и свободно выражать свои мысли и чувства. Готов помочь и поддержать в любой ситуации, которая тебе беспокоит.',
+        text: "I understand that anonymity is very important for some people, especially when discussing personal or sensitive issues. This is normal and absolutely fine.\nThe main thing is that you feel comfortable and free to express your thoughts and feelings. I am ready to help and support you in any situation that bothers you.",
       ),
     );
     state = OnboardingState.sendMessage(_chatMessages);

@@ -42,12 +42,12 @@ class TheraChatController extends StateNotifier<TheraChatState> with CoreRequest
           _chatMessages = result;
           final user = ref.read(authProvider.notifier).state.user;
           _chatMessages.add(
-            ChatMessage.additionalMessage('Вы вошли как ${user?.fillName}'),
+            ChatMessage.additionalMessage('You logged in as ${user?.fillName}'),
           );
           _chatMessages.add(
             ChatMessage.assistantMessage(
               text:
-                  'Приветствую ${user?.name}! Рад видеть вас здесь снова. Замечательно, что вы решили войти через свой аккаунт. Это даст нам возможность более глубоко изучить ваш прогресс, предпочтения и лучше адаптировать программу под ваши нужды. Какие вопросы у вас возникли с момента нашего последнего разговора или чем я могу помочь сейчас?',
+                  "Hello ${user?.name}! I am glad to see you here again. It's great that you decided to log in using your account. \nThis will give us the opportunity to study your progress, preferences in more depth and better adapt the program to your needs. What questions have you had since our last conversation, or how can I help you now?",
             ),
           );
         }

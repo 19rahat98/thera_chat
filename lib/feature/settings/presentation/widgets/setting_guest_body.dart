@@ -23,7 +23,7 @@ class SettingGuestBody extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 48),
           child: Text(
-            'Здесь обычно хранится что-то очень важное, но сейчас это место пустует.',
+            'Something important is usually stored here, but now this place is empty.',
             textAlign: TextAlign.center,
             style: AppTextStyle.body2,
           ),

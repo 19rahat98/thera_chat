@@ -41,7 +41,7 @@ class AppInternetProblemWidget extends StatelessWidget {
               SvgPicture.asset(AppIcons.icWorldOutline),
               const WBox(8),
               Text(
-                'Повторить',
+                'Retry',
                 style: AppTextStyle.button1,
               ),
             ],

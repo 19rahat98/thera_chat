@@ -40,7 +40,7 @@ class GuestChatBottomActionBar extends StatelessWidget {
                   ),
                   const WBox(8),
                   Text(
-                    'Вход',
+                    'Log in',
                     style: AppTextStyle.button2.copyWith(color: Colors.white),
                   ),
                 ],
@@ -54,7 +54,7 @@ class GuestChatBottomActionBar extends StatelessWidget {
               borderRadiusRadii: 24,
               constraints: const BoxConstraints(maxHeight: 40),
               child: Text(
-                'Остаться как гость',
+                'Stay as guest',
                 style: AppTextStyle.button2,
               ),
             ),

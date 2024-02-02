@@ -42,11 +42,11 @@ class ChatMessage {
 
   /// шаблонные сообщение
   static List<ChatMessage> welcomeMessages() => [
-    ChatMessage.assistantMessage(text: 'Приветствую тебя, умный и внимательный соучастник! Я рад видеть тебя здесь. Буду рад помочь в любых вопросах, связанных с психологией. Как вас зовут?'),
-    ChatMessage.userMessage('Привет, меня зовут Эмма.'),
-    ChatMessage.assistantMessage(text: 'Для начала можешь выбрать, зайти как постоянный пользователь, чтобы я мог запомнить твои предпочтения и продолжить наши беседы, или остаться анонимным гостем и получить помощь без сохранения информации. Какой вариант тебе ближе сейчас?'),
-    ChatMessage.additionalMessage('Вы успешно завершили регистрацию'),
-    ChatMessage.assistantMessage(text: 'Поздравляю с завершением регистрации! Это замечательный шаг для того, чтобы начать путь к самопознанию и личному развитию. Теперь у нас есть возможность глубже и более индивидуально работать над вашими запросами и целями. Что вас привело сюда сегодня? Есть ли что-то конкретное, над чем вы хотели бы поработать или поговорить?'),
+    ChatMessage.assistantMessage(text: "Greetings, smart and attentive partner! I'm glad to see you here. I will be glad to help with any questions related to psychology. What is your name?"),
+    ChatMessage.userMessage('Hello, My name is Emma.'),
+    ChatMessage.assistantMessage(text: "To begin with, you can choose to log in as a regular user so that I can remember your preferences and continue our conversations, or remain an anonymous guest and get help without saving information. Which option is closer to you now?"),
+    ChatMessage.additionalMessage('You have successfully completed the registration'),
+    ChatMessage.assistantMessage(text: "Congratulations on completing the registration! This is a wonderful step to begin the path to self-knowledge and personal development. \nNow we have the opportunity to work deeper and more individually on your requests and goals. What brings you here today? Is there anything in particular that you would like to work on or talk about?"),
   ];
 
   /// Проверка, чея это сообщение

@@ -104,7 +104,7 @@ class UpdateUserDataScreenState extends ConsumerState<UpdateUserDataScreen> {
                 ),
                 const HBox(16),
                 AppLabelTextFieldWidget(
-                  label: 'Phone number and email',
+                  label: 'Email',
                   controller: _emailController,
                   textInputAction: TextInputAction.next,
                   inputType: TextInputType.emailAddress,

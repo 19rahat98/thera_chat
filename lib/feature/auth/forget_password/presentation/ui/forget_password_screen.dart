@@ -41,7 +41,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: AppLabelTextFieldWidget(
-                label: 'Phone number and email',
+                label: 'Email',
                 labelStyle: AppTextStyle.body1.copyWith(
                   color: AppColors.secondary,
                 ),

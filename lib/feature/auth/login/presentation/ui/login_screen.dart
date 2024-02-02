@@ -78,7 +78,7 @@ class LoginScreen extends ConsumerWidget {
                     child: AppLabelTextFieldWidget(
                       color: Colors.white,
                       onValueChanged: signInController.setEmail,
-                      label: 'Phone number and email',
+                      label: 'Email',
                       textInputAction: TextInputAction.next,
                       inputType: TextInputType.emailAddress,
                       labelStyle: AppTextStyle.body1.copyWith(

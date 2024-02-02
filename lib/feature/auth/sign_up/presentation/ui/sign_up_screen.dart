@@ -78,7 +78,7 @@ class SignUpScreen extends ConsumerWidget {
                             AppLabelTextFieldWidget(
                               inputType: TextInputType.emailAddress,
                               textInputAction: TextInputAction.next,
-                              label: 'Phone number and email',
+                              label: 'Email',
                               onValueChanged: signUpController.setEmail,
                               errorMessage: state.errorEmail,
                             ),
