@@ -5,7 +5,6 @@ import 'package:theta_chat/common/presentation/widgets/buttons/app_tile_button.d
 import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/auth/login/presentation/ui/login_screen.dart';
 import 'package:theta_chat/feature/confidentiality/presentation/ui/confidentiality_screen.dart';
-import 'package:theta_chat/feature/message_center/presentation/ui/message_center_screen.dart';
 
 class SettingGuestBody extends StatelessWidget {
   const SettingGuestBody({Key? key}) : super(key: key);
@@ -38,25 +37,11 @@ class SettingGuestBody extends StatelessWidget {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => const MessageCenterScreen(),
-            ),
-          ),
-          icon: AppIcons.icMailFilled,
-          title: 'Message Center',
-        ),
-        AppTileButton(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
               builder: (_) => const ConfidentialityScreen(),
             ),
           ),
           icon: AppIcons.icInformationFilled,
           title: 'Confidentiality',
-        ),
-        const AppTileToggle(
-          icon: AppIcons.icBellFilled,
-          title: 'Notifications',
         ),
         const HBox(20),
         AppTextButton(
@@ -68,7 +53,7 @@ class SettingGuestBody extends StatelessWidget {
             ModalRoute.withName('/'),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          text: 'Войти',
+          text: 'Log in',
           style: AppTextStyle.button3,
         ),
       ],

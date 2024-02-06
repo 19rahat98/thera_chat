@@ -1,7 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:theta_chat/common/constants/app_core_constant.dart';
 import 'package:theta_chat/common/presentation/widgets/app_bar/common_app_bar.dart';
 import 'package:theta_chat/common/presentation/widgets/app_hbox_widget.dart';
 import 'package:theta_chat/common/presentation/widgets/app_income_message.dart';
@@ -9,7 +8,6 @@ import 'package:theta_chat/common/presentation/widgets/app_outcome_message.dart'
 import 'package:theta_chat/common/presentation/widgets/app_waiting_animated_dots.dart';
 import 'package:theta_chat/common/presentation/widgets/keyboard_dismisser.dart';
 import 'package:theta_chat/common/presentation/widgets/screen/internet_connection_status_widget.dart';
-import 'package:theta_chat/common/presentation/widgets/snack_bars.dart';
 import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/onboarding/presentation/controller/onboarding_riverpod.dart';
 import 'package:theta_chat/feature/onboarding/presentation/ui/widgets/onboarding_footer.dart';
@@ -35,7 +33,7 @@ class TheraChatOnboardingScreenState extends ConsumerState<TheraChatOnboardingSc
       child: Scaffold(
         backgroundColor: AppColors.grey20,
         appBar: CommonAppBar(
-          onPressLeading: () => Navigator.pushReplacement(
+          onPressLeading: () => Navigator.push(
             context,
             MaterialPageRoute(
               builder: (_) => const SplashScreen(),
@@ -78,8 +76,7 @@ class TheraChatOnboardingScreenState extends ConsumerState<TheraChatOnboardingSc
                 activateChat: onboardingProviderController.stayLikeGuest,
                 onSendMessage: () {
                   onboardingProviderController.sendNewMessage(_controller.text);
-                  if (!state.isLoading && _controller.text.isNotEmpty) {
-                    onboardingProviderController.sendNewMessage(_controller.text);
+                  if (_controller.text.isNotEmpty && !state.isLoading) {
                     _controller.clear();
                   }
                 },

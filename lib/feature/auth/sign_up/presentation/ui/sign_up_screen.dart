@@ -13,6 +13,7 @@ import 'package:theta_chat/config/theme.dart';
 import 'package:theta_chat/feature/auth/common/presentation/controller/authentication_controller.dart';
 import 'package:theta_chat/feature/auth/sign_up/presentation/controller/sign_up_controller.dart';
 import 'package:theta_chat/feature/auth/sign_up/presentation/ui/widgets/password_validation_errors.dart';
+import 'package:theta_chat/feature/chat/thera_chat/presentation/ui/thera_chat_screen.dart';
 
 class SignUpScreen extends ConsumerWidget {
   const SignUpScreen({super.key});
@@ -150,7 +151,13 @@ class SignUpScreen extends ConsumerWidget {
         } else if (current.status == SignUpStatus.success) {
           final authController = ref.read(authProvider.notifier);
           authController.getUserData();
-          Navigator.pop(context);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const TheraChatScreen(),
+            ),
+            ModalRoute.withName('/'),
+          );
         }
       },
     );

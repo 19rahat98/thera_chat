@@ -37,7 +37,10 @@ class TheraChatController extends StateNotifier<TheraChatState> with CoreRequest
       loading: (isLoading) => state = state.copyWith(isLoading: isLoading),
       resultData: (result) {
         if (result.isEmpty) {
-          _chatMessages.addAll(ChatMessage.welcomeMessages());
+          final user = ref.read(authProvider.notifier).state.user;
+          _chatMessages.addAll(
+            ChatMessage.welcomeMessages(userName: user?.fillName),
+          );
         } else {
           _chatMessages = result;
           final user = ref.read(authProvider.notifier).state.user;

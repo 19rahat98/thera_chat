@@ -57,6 +57,7 @@ class AuthController extends StateNotifier<AuthenticationState> with CoreRequest
       resultData: (userData) {
         // Пользователь аутентифицирован, обновляем состояние.
         state = AuthenticationState.authenticated(userData);
+        print(state);
       },
       errorData: (exception, type) {
         state = AuthenticationState.error(exception?.message ?? CoreConstant.empty);

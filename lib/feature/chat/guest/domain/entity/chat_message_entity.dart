@@ -41,13 +41,19 @@ class ChatMessage {
   }
 
   /// шаблонные сообщение
-  static List<ChatMessage> welcomeMessages() => [
-    ChatMessage.assistantMessage(text: "Greetings, smart and attentive partner! I'm glad to see you here. I will be glad to help with any questions related to psychology. What is your name?"),
-    ChatMessage.userMessage('Hello, My name is Emma.'),
-    ChatMessage.assistantMessage(text: "To begin with, you can choose to log in as a regular user so that I can remember your preferences and continue our conversations, or remain an anonymous guest and get help without saving information. Which option is closer to you now?"),
-    ChatMessage.additionalMessage('You have successfully completed the registration'),
-    ChatMessage.assistantMessage(text: "Congratulations on completing the registration! This is a wonderful step to begin the path to self-knowledge and personal development. \nNow we have the opportunity to work deeper and more individually on your requests and goals. What brings you here today? Is there anything in particular that you would like to work on or talk about?"),
-  ];
+  static List<ChatMessage> welcomeMessages({String? userName}) => [
+        ChatMessage.assistantMessage(
+            text:
+                "Greetings, smart and attentive partner! I'm glad to see you here. I will be glad to help with any questions related to psychology. What is your name?"),
+        ChatMessage.userMessage('Hello, My name is ${userName ?? 'Emma'}'),
+        ChatMessage.assistantMessage(
+            text:
+                "To begin with, you can choose to log in as a regular user so that I can remember your preferences and continue our conversations, or remain an anonymous guest and get help without saving information. Which option is closer to you now?"),
+        ChatMessage.additionalMessage('You have successfully completed the registration'),
+        ChatMessage.assistantMessage(
+            text:
+                "Congratulations on completing the registration! This is a wonderful step to begin the path to self-knowledge and personal development. \nNow we have the opportunity to work deeper and more individually on your requests and goals. What brings you here today? Is there anything in particular that you would like to work on or talk about?"),
+      ];
 
   /// Проверка, чея это сообщение
   bool get isAssistantMessage => role == 'assistant';

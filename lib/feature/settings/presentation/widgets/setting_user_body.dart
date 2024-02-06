@@ -7,7 +7,6 @@ import 'package:theta_chat/feature/auth/common/domain/entity/user_detail_entity.
 import 'package:theta_chat/feature/auth/login/presentation/ui/login_screen.dart';
 import 'package:theta_chat/feature/auth/update_user_data/presentation/ui/update_user_data_screen.dart';
 import 'package:theta_chat/feature/confidentiality/presentation/ui/confidentiality_screen.dart';
-import 'package:theta_chat/feature/message_center/presentation/ui/message_center_screen.dart';
 
 class SettingUserBody extends StatelessWidget {
   const SettingUserBody(
@@ -52,25 +51,11 @@ class SettingUserBody extends StatelessWidget {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => const MessageCenterScreen(),
-            ),
-          ),
-          icon: AppIcons.icMailFilled,
-          title: 'Message Center',
-        ),
-        AppTileButton(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
               builder: (_) => const ConfidentialityScreen(),
             ),
           ),
           icon: AppIcons.icInformationFilled,
           title: 'Confidentiality',
-        ),
-        const AppTileToggle(
-          icon: AppIcons.icBellFilled,
-          title: 'Notifications',
         ),
         const HBox(20),
         AppTextButton(
@@ -85,7 +70,7 @@ class SettingUserBody extends StatelessWidget {
             );
           },
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          text: 'Выйти из аккаунта',
+          text: 'Log out',
           style: AppTextStyle.button3,
         ),
       ],

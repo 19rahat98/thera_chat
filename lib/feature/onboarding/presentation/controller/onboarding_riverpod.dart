@@ -50,24 +50,7 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
             "Greetings, smart and attentive partner! I'm glad to see you here. I will be glad to help with any questions related to psychology. What is your name?",
       ),
     );
-    state = OnboardingState.sendMessage(_chatMessages);
-    await Future.delayed(
-      const Duration(milliseconds: 1500),
-    );
-    _chatMessages.add(
-      ChatMessage.userMessage('Hello, Hello, My name is Emma.'),
-    );
-    state = OnboardingState.sendMessage(_chatMessages);
-    await Future.delayed(
-      const Duration(milliseconds: 1500),
-    );
-    _chatMessages.add(
-      ChatMessage.assistantMessage(
-        text:
-            'To begin with, you can choose to log in as a regular user so that I can remember your preferences and continue our conversations, or remain an anonymous guest and get help without saving information. Which option is closer to you now?',
-      ),
-    );
-    state = OnboardingState.finish(_chatMessages);
+    state = OnboardingState.enterUserName(_chatMessages);
   }
 
   /// Начинает новую сессию гостевого чата.
@@ -86,11 +69,6 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
       resultData: (result) {
         _chatId = result.chatId;
         _chatMessages.removeLast();
-        _chatMessages.add(
-          ChatMessage.assistantMessage(
-              text:
-                  "Let's learn more about the available modules. I have some interesting tools that might be useful. Do you want to explore?"),
-        );
         state = OnboardingState.guestMessage(_chatMessages);
       },
       errorData: (exception, status) {
@@ -117,10 +95,34 @@ class OnboardingController extends StateNotifier<OnboardingState> with CoreReque
     await startGuestChat();
   }
 
+  Future<void> finishGuestOnboarding(String text) async {
+    _chatMessages.add(
+      ChatMessage.userMessage(text),
+    );
+    state = OnboardingState.sendMessage(_chatMessages);
+    await Future.delayed(
+      const Duration(milliseconds: 1500),
+    );
+    _chatMessages.add(
+      ChatMessage.assistantMessage(
+        text:
+            'To begin with, you can choose to log in as a regular user so that I can remember your preferences and continue our conversations, or remain an anonymous guest and get help without saving information. Which option is closer to you now?',
+      ),
+    );
+    state = OnboardingState.finish(_chatMessages);
+  }
+
   /// Отправляет новое сообщение в чат.
   ///
   /// [text] - текст сообщения для отправки.
   Future<void> sendNewMessage(String text) async {
+    if (state.isLoading && text.isEmpty) {
+      return;
+    } else if (state.status == OnboardingStatus.enterName) {
+      await finishGuestOnboarding(text);
+      return;
+    }
+
     _chatMessages.addAll(
       [ChatMessage.userMessage(text), ChatMessage.assistantMessage()],
     );

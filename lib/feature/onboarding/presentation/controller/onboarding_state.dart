@@ -6,6 +6,7 @@ enum OnboardingStatus {
   definitive, // Состояние когда завершается анимация.
   guestChat,
   failure,
+  enterName,
 }
 
 /// Класс состояния для управления состоянием анимационного чата онбординга.
@@ -34,6 +35,10 @@ class OnboardingState extends Equatable {
   /// Создает состояние загрузки.
   const OnboardingState.loading(List<ChatMessage> chat)
       : this._(status: OnboardingStatus.common, isLoading: true, chat: chat);
+
+  /// Создает состояние для указанте имени юзера.
+  const OnboardingState.enterUserName(List<ChatMessage> chat)
+      : this._(status: OnboardingStatus.enterName, isLoading: false, chat: chat);
 
   /// Создает состояние с ошибкой.
   const OnboardingState.error(String message, List<ChatMessage> chat)

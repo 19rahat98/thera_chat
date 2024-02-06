@@ -53,6 +53,11 @@ class OnboardingFooter extends StatelessWidget {
         onSendMessage: onSendMessage,
         controller: controller,
       );
+    } else if (state.status == OnboardingStatus.enterName) {
+      return GuestEnterNameTextField(
+        onSendMessage: onSendMessage,
+        controller: controller,
+      );
     }
 
     return const SizedBox.shrink();

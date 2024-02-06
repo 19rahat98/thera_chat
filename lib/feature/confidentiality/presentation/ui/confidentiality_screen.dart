@@ -20,19 +20,31 @@ class ConfidentialityScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Наши гарантии конфиденциальности:',
+              'TERMS OF USE',
               textAlign: TextAlign.start,
               style: AppTextStyle.h4,
             ),
             const HBox(12),
             Text(
-              '''Мы ценим вашу приватность и обязуемся к строгой защите всех предоставленных вами данных. Вся информация, которую вы передаете через наше приложение, обсуждения в рамках сессий, личные данные, остаются абсолютно конфиденциальными и защищены согласно высоким стандартам безопасности.
-Мы не передаем вашу личную информацию третьим лицам без вашего явного разрешения, за исключением случаев, когда это необходимо для оказания вам помощи и соблюдения законных требований. Наша команда обладает строгим этическим кодексом, гарантирующим неразглашение любой информации, полученной в процессе наших сессий.
-Помните, что ваше доверие - наш приоритет. Мы стараемся создать безопасное и поддерживающее пространство для ваших разговоров и личного роста. Все данные хранятся в зашифрованном виде, а доступ к ним имеют только специально авторизованные лица, занимающиеся вашим обслуживанием.
-Если у вас есть какие-либо вопросы или беспокойства относительно защиты вашей конфиденциальности, пожалуйста, обратитесь к нашей службе поддержки. Мы всегда готовы помочь и обеспечить вас всей необходимой информацией для обеспечения вашей уверенности в безопасности ваших данных.''',
+              '''PLEASE READ THESE TERMS CAREFULLY BEFORE USING THIS APPLICATION. BY USING THE APP, YOU AGREE TO BE BOUND BY THE TERMS BELOW.
+
+This app is currently in development as a Minimum Viable Product (MVP) to test functionality and user experience. It is not intended for actual therapeutic use or medical advice. 
+
+Information shared is not confidential and will be used for research and development purposes only. Your anonymized responses may be analyzed as part of ongoing product evaluation and testing. 
+
+While accuracy and helpfulness is the goal, responses provided by the app cannot be guaranteed. Do not rely on this app for any diagnosis or treatment recommendations regarding mental health. If you are experiencing a crisis, please contact emergency services.
+
+You understand that as the MVP stage, the app features are preliminary and subject to change based on user feedback. Future versions may operate differently based on learnings during this testing period.
+
+By using this app and providing feedback, you agree your data will be handled as described in our Privacy Policy. You also agree not to share any personal health information of other individuals through open-ended responses.
+
+We cannot be held responsible for any loss or damages resulting from use of this application at its current experimental stage. Please contact us if you have any other questions or concerns.
+
+Your use of this app constitutes agreement with these Terms of Use.''',
               textAlign: TextAlign.start,
               style: AppTextStyle.body1,
             ),
+            const HBox(12),
           ],
         ),
       ),
