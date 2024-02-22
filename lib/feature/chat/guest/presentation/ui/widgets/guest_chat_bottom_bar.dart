@@ -23,7 +23,7 @@ class GuestChatBottomActionBar extends StatelessWidget {
         children: [
           Expanded(
             child: AppFilledColorButton(
-              onTap: () => Navigator.pushReplacement(
+              onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => const LoginScreen(),
