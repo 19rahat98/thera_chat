@@ -59,7 +59,6 @@ class AppOutlineButtonWidget extends StatelessWidget with IgnoreDoubleTapMixin {
         style: OutlinedButton.styleFrom(
           elevation: 0,
           backgroundColor: color,
-          primary: Colors.transparent,
           padding: padding ?? EdgeInsets.zero,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           side: BorderSide(
